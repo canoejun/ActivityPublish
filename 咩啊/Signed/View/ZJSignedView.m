@@ -10,6 +10,7 @@
 #import "ZJSignedModel.h"
 #import "ZJBaseDataSource.h"
 #import "ZJSignedCell.h"
+#import "ZJUsersModel.h"
 
 
 @interface ZJSignedView ()<UITableViewDelegate>
@@ -26,22 +27,36 @@ static NSString *reusedID = @"ZJSignedView";
         [self addSubview:self.imageView];
         [self addSubview:self.tableView];
         [self __setUI];
+        [self __updateData];
     }
     return self;
 }
 
 -(void)__setUI{
     
-    NSArray *dataArray = [ZJSignedModel loadSignedData];
-    if(!dataArray || dataArray.count <= 0){
+//    NSArray *dataArray = [ZJSignedModel loadSignedData];
+    if(!self.dataSource.dataArray || self.dataSource.dataArray.count <= 0){
         self.tableView.hidden = YES;
         self.imageView.hidden = NO;
     }else{
         self.tableView.hidden = NO;
         self.imageView.hidden = YES;
-        [self.dataSource addDataArray:dataArray];
     }
+}
 
+-(void)__updateData{
+//    /apply/select
+//    更新SETUI和tableview
+    NSString *link = @"";
+//    [ZJSignedModel loadDataWithLink:link params:@{@"phoneNumber":[ZJUsersModel shareInstance].phoneNumber} success:^(id  _Nullable responseObject) {
+//        //        ZJSignedModel
+//        NSArray *dataArray = [ZJSignedModel loadDataWith:responseObject picLink:@""];
+//        [self.dataSource addDataArray:dataArray];
+//        [self __setUI];
+//        [self.tableView reloadData];
+//    } failure:^(id  _Nullable errror) {
+//        NSLog(@"%@",errror);
+//    } method:@"POST"];
 }
 
 #pragma ---------------------UITableViewDelegate------------------------------
@@ -86,6 +101,7 @@ static NSString *reusedID = @"ZJSignedView";
 
 -(ZJBaseDataSource *)dataSource{
     if(!_dataSource){
+        NSLog(@"加载报名数据");
         self.dataSource = [[ZJBaseDataSource alloc] initWithIdentity:reusedID configBlock:^(ZJSignedCell * _Nonnull cell, id  _Nonnull model, NSIndexPath * _Nonnull indexPath) {
             cell.model = model;
         }];

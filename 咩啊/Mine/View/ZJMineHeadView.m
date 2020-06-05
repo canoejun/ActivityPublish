@@ -8,36 +8,67 @@
 
 #import "ZJMineHeadView.h"
 #import "ZJMineModuleView.h"
+#import "ZJMineHeadViewBannerModel.h"
+
+@interface ZJMineHeadView ()
+@property (nonatomic, strong, readwrite) ZJMineHeadViewBannerModel *headViewBannerModel;
+@property (nonatomic, strong, readwrite) UIButton *nameLable;
+@property (nonatomic, strong, readwrite) UIButton *idLabel;
+@end
 
 @implementation ZJMineHeadView
 
 -(instancetype)initWithFrame:(CGRect)frame{
     if(self = [super initWithFrame:frame]){
-//        self.backgroundColor = [UIColor redColor];
         [self __setUI];
     }
     return self;
 }
+
+-(ZJMineHeadViewBannerModel *)headViewBannerModel{
+    if(!_headViewBannerModel){
+        _headViewBannerModel = [ZJMineHeadViewBannerModel loadDataWithLink:@"" mottoLink:@"" ];
+    }
+    return _headViewBannerModel;
+}
+-(UIButton *)nameLable{
+    if(!_nameLable){
+        _nameLable = self.nameLable = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_nameLable setTitle:self.headViewBannerModel.name forState:UIControlStateNormal];
+        [_nameLable setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _nameLable.frame = CGRectMake(0, 0, 200, 25);
+        [_nameLable addTarget:self action:@selector(__changeNameAndMotto:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _nameLable;
+}
+
+-(UIButton *)idLabel{
+    if(!_idLabel){
+        _idLabel = self.nameLable = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_idLabel setTitle:self.headViewBannerModel.motto forState:UIControlStateNormal];
+        _idLabel.frame = CGRectMake(0, 0, 200, 25);
+        [_idLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_idLabel addTarget:self action:@selector(__changeNameAndMotto:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _idLabel;
+}
+
 -(void)__setUI{
     //设置圆形和昵称
-    UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon"]];
-    iconImageView.frame = CGRectMake(15, 40, 70, 70);
+    UIImageView *iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo"]];
+    iconImageView.frame = CGRectMake(15, 40, 85, 85);
     [self addSubview:iconImageView];
     
-    UILabel *nameLable = [[UILabel alloc] init];
-    nameLable.text = @"我的名字";
-    nameLable.frame = CGRectMake(CGRectGetMaxX(iconImageView.frame), 40, 200, 20);
-    [self addSubview:nameLable];
-    
-    UILabel *idLabel = [[UILabel alloc] init];
-    idLabel.text = [NSString stringWithFormat:@"校园卡ID：%@",@123245];
-    idLabel.frame = CGRectMake(CGRectGetMaxX(iconImageView.frame), CGRectGetMaxY(nameLable.frame)+5, 200, 25);
-    [self addSubview:idLabel];
+    CGFloat left = CGRectGetMaxX(iconImageView.frame) - 20;
+    self.nameLable.frame = CGRectMake(left, iconImageView.frame.origin.y + 15, 200, 25);
+    [self addSubview:_nameLable];
+    self.idLabel.frame = CGRectMake(left, CGRectGetMaxY(_nameLable.frame)+15, 200, 25);
+    [self addSubview:_idLabel];
     
     [self layoutIfNeeded];
     [self setNeedsLayout];
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(iconImageView.frame)+30, self.frame.size.width, 120)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(iconImageView.frame)+25, self.frame.size.width, 120)];
     NSArray *moduleImageName =  @[@"signed",@"collection",@"history_activity",@"identity_authen"];
     NSArray *moduleName = @[@"已报名的",@"我的收藏",@"历史活动",@"身份认证"];
     
@@ -55,12 +86,17 @@
         [backView addSubview:view];
     }
     
-    
     [self addSubview:backView];
     
     UIView *placeHolderView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(backView.frame), self.frame.size.width, 10)];
     placeHolderView.backgroundColor = [UIColor whiteColor];
     [self addSubview:placeHolderView];
+}
+
+
+-(void)__changeNameAndMotto:(UITapGestureRecognizer *)tap{
+//    显示更改名字和座右铭
+    [self __pushNextController:@"ZJMineNameMottoViewController" model:_headViewBannerModel];
 }
 
 -(void)__mouduleClickTap:(UITapGestureRecognizer *)tap{
@@ -97,6 +133,11 @@
 -(void)__pushNextController:(NSString *)nextController{
     if([self.delegate respondsToSelector:@selector(ZJMineHeadViewModuleViewDidClicked:)]){
         [self.delegate ZJMineHeadViewModuleViewDidClicked:nextController];
+    }
+}
+-(void)__pushNextController:(NSString *)nextController model:(id)model{
+    if([self.delegate respondsToSelector:@selector(ZJMineHeadViewModuleViewDidClicked:model:)]){
+        [self.delegate ZJMineHeadViewModuleViewDidClicked:nextController model:model];
     }
 }
 

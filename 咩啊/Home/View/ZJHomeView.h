@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class ZJBaseDataSource;
+
 @protocol ZJHomeViewDelegate <NSObject>
 
--(void)ZJHomeMoreDetailDidClicked:(NSString *_Nullable)nextControllerName;
-
+-(void)ZJHomeMoreDetailDidClicked:(NSString *_Nullable)nextControllerName dataSource:(ZJBaseDataSource *_Nullable)dataSource;
+-(void)ZJHomeCellDidClicked:(NSString *_Nullable)nextControllerName detailLink:(NSString *_Nullable)url;
 
 @end
 

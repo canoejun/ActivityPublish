@@ -11,6 +11,7 @@
 @protocol ZJMineViewDelegate <NSObject>
 
 -(void)pushToNextController:(NSString *_Nullable)nextControllerName;
+-(void)pushToNextController:(NSString *_Nullable)nextControllerName model:(id _Nullable)model;
 -(void)showAlertVc:(UIAlertController *_Nullable)alertVc;
 
 @end

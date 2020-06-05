@@ -10,7 +10,7 @@
 #import "ZJHomeViewController.h"
 #import "ZJMineViewController.h"
 
-@interface ZJTabBarController ()
+@interface ZJTabBarController ()<UITabBarControllerDelegate>
 
 @end
 
@@ -19,15 +19,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.delegate = self;
     [self __setUPChildVC];
     
 }
+
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+    [viewController.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
 
 -(void)__setUPChildVC{
     
 //    [self __addChildVCWithClass:[ZJHomeViewController new] image:@"home" selImage:@"home_sel" title:@"主页"];
     UIViewController *homeVc = [self __buildChildVCWithClass:[ZJHomeViewController new] image:@"home" selImage:@"home_sel" title:@"主页"];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:homeVc];
+    [nav.navigationBar setTintColor:[UIColor whiteColor]];
     [self addChildViewController:nav];
     
     UIViewController *mineVc = [self __buildChildVCWithClass:[ZJMineViewController new] image:@"mine" selImage:@"mine_sel" title:@"我的"];
@@ -43,6 +51,8 @@
     vc.tabBarItem.selectedImage = [[UIImage imageNamed:selImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     return vc;
 }
+
+
 
 
 

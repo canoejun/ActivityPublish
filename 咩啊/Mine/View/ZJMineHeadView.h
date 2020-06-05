@@ -12,6 +12,8 @@
 
 -(void)ZJMineHeadViewModuleViewDidClicked:(NSString *_Nullable)nextControllerName;
 
+-(void)ZJMineHeadViewModuleViewDidClicked:(NSString *_Nullable)nextControllerName model:(id _Nullable)model;
+
 -(void)ZJMineHeadViewIdentityDidClicked;
 
 @end

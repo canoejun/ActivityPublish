@@ -10,6 +10,7 @@
 #import "ZJCollectionModel.h"
 #import "ZJBaseDataSource.h"
 #import "ZJCollectionCell.h"
+#import "ZJUsersModel.h"
 
 @interface ZJHistoryView ()<UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong, readwrite) UIView *imageView;
@@ -25,9 +26,9 @@ static NSString * const reusedID = @"ZJHistory";
     if(self = [super initWithFrame:frame]){
         [self addSubview:self.imageView];
         [self addSubview:self.collectionView];
-        
-        
         [self __setUI];
+        [self addObserver:self forKeyPath:@"showSelect" options:NSKeyValueObservingOptionNew context:nil];
+        [self __updateData];
     }
     return self;
 }
@@ -43,10 +44,23 @@ static NSString * const reusedID = @"ZJHistory";
         self.imageView.hidden = YES;
         [self.dataSource addDataArray:dataArray];
     }
-    
-    [self addObserver:self forKeyPath:@"showSelect" options:NSKeyValueObservingOptionNew context:nil];
-    
 }
+
+-(void)__updateData{
+    //    /apply/select
+    //    更新SETUI和tableview
+    NSString *link = @"";
+//    [ZJCollectionModel loadDataWithLink:link params:@{@"phoneNumber":[ZJUsersModel shareInstance].phoneNumber} success:^(id  _Nullable responseObject) {
+//        //        ZJSignedModel
+//        NSArray *dataArray = [ZJCollectionModel loadDataWith:responseObject picLink:@""];
+//        [self.dataSource addDataArray:dataArray];
+//        [self.collectionView reloadData];
+//    } failure:^(id  _Nullable errror) {
+//        NSLog(@"%@",errror);
+//    } method:@"POST"];
+}
+
+
 #pragma ---------------------delegate------------------------------
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return CGSizeMake(self.collectionView.frame.size.width * 0.5, 140);
@@ -106,6 +120,7 @@ static NSString * const reusedID = @"ZJHistory";
 
 -(ZJBaseDataSource *)dataSource{
     if(!_dataSource){
+        NSLog(@"加载历史数据");
         self.dataSource = [[ZJBaseDataSource alloc] initWithIdentity:reusedID configBlock:^(ZJCollectionCell * _Nonnull cell, id  _Nonnull model, NSIndexPath * _Nonnull indexPath) {
             cell.model = model;
         }];

@@ -29,15 +29,16 @@
     [self addSubview:self.textLabel];
     [self addSubview:self.imgView];
     
-    self.imgView.frame = CGRectMake(CGRectGetMaxX(self.textLabel.frame), 0, 12, 12);
+    self.imgView.frame = CGRectMake(CGRectGetMaxX(self.textLabel.frame)+3, 0, 9.5, 12.1);
+    self.imgView.center = CGPointMake(self.imgView.center.x, _textLabel.center.y);
     
 }
 
 #pragma ---------------------lazyLoad------------------------------
 -(UILabel *)textLabel{
     if(!_textLabel){
-        _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60, 15)];
-        _textLabel.font = [UIFont systemFontOfSize:13];
+        _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60, self.frame.size.height)];
+        _textLabel.font = [UIFont systemFontOfSize:14];
         _textLabel.textColor = [UIColor lightGrayColor];
     }
     return _textLabel;

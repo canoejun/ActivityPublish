@@ -59,13 +59,34 @@
     
 }
 
++(NSArray *)loadDataWith:(NSArray *)dataArray picLink:(nonnull NSString *)link{
+    NSMutableArray *resultArray = [NSMutableArray array];
+    for (int i = 0; i < dataArray.count; i++) {
+        NSDictionary *dic = dataArray[i];
+        ZJCollectionModel *model = [[ZJCollectionModel alloc] initWithDic:dic picLink:link];
+        [resultArray addObject:model];
+    }
+    return resultArray;
+}
+
 
 -(instancetype)initWithDic:(NSDictionary *)dic{
     if(self = [super init]){
         self.imgUrl = dic[@"imgUrl"];
         self.content = dic[@"content"];
         self.selected = [dic[@"selected"] boolValue];
+        self.activityID = dic[@"Activity_ID"];
+        self.activityState = dic[@"Activity_State"];
     }
     return self;
+}
+
+
++(void)removeDataWithLink:(NSString *)link params:(id _Nullable)params success:(successBlock)success failure:(failureBlock)failure{
+    [super loadDataWithLink:link params:params success:^(id  _Nullable responseObject) {
+        success(responseObject);
+    } failure:^(id  _Nullable errror) {
+        failure(errror);
+    } method:@"POST"];
 }
 @end

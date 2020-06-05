@@ -8,6 +8,8 @@
 
 #import "ZJHomeViewController.h"
 #import "ZJHomeView.h"
+#import "ZJBaseViewController.h"
+#import "ZJBaseDetailViewController.h"
 
 @interface ZJHomeViewController ()<ZJHomeViewDelegate>
 
@@ -23,7 +25,6 @@
     [self __setNavigationBar];
     
     
-    
     [self.view addSubview:({
         ZJHomeView *view = [[ZJHomeView alloc] initWithFrame:self.view.bounds];
         view.delegate = self;
@@ -33,21 +34,29 @@
     
 }
 
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    NSLog(@"%d %d %@",self.navigationController.navigationController.isNavigationBarHidden,NO,self.navigationController.navigationController);
-//    if(!self.navigationController.navigationController.isNavigationBarHidden){
-//        [self.navigationController.navigationController setNavigationBarHidden:YES animated:NO];
-//    }
-//}
-
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController.navigationController setNavigationBarHidden:NO animated:NO];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationController setNavigationBarHidden:YES animated:NO];
+}
 
 
 #pragma ----------------------ZJHomeViewDelegate-----------------------------
-- (void)ZJHomeMoreDetailDidClicked:(NSString *)nextControllerName{
+- (void)ZJHomeMoreDetailDidClicked:(NSString *)nextControllerName dataSource:(ZJBaseDataSource * _Nullable)dataSource{
     Class cls = NSClassFromString(nextControllerName);
-    UIViewController *vc = [[cls alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    ZJBaseViewController *vc = [[cls alloc] init];
+    vc.dataSource = dataSource;
+    [self.navigationController.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)ZJHomeCellDidClicked:(NSString *)nextControllerName detailLink:(NSString *)url{
+    Class cls = NSClassFromString(nextControllerName);
+    ZJBaseDetailViewController *vc = [[cls alloc] init];
+    vc.url = url;
+    [self.navigationController.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma ---------------------privateMethod------------------------------

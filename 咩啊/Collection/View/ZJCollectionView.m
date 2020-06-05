@@ -10,6 +10,7 @@
 #import "ZJCollectionModel.h"
 #import "ZJBaseDataSource.h"
 #import "ZJCollectionCell.h"
+#import "ZJUsersModel.h"
 
 @interface ZJCollectionView ()<UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong, readwrite) UIView *imageView;
@@ -74,6 +75,7 @@ static NSString * const reusedID = @"ZJCollectionView";
             if(![cell isKindOfClass:[ZJCollectionCell class]])continue;
             [((ZJCollectionCell *)cell) hideSelectedBtn];
         }
+        
         self.delBtn.hidden = YES;
         self.cancelBtn.hidden = YES;
     }
@@ -130,11 +132,23 @@ static NSString * const reusedID = @"ZJCollectionView";
 }
 
 -(void)__deleteSelectedItem{
+     NSString *link = @"";
     for (ZJCollectionCell *cell in self.delArray) {
          cell.selectBtn.selected = NO;
         [self.dataSource removeData:cell.model];
+        
+        NSLog(@"删除收藏的数据");
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            [ZJCollectionModel removeDataWithLink:link params:@{@"phoneNumber":[ZJUsersModel shareInstance].phoneNumber,@"activity_id":cell.model.activityID} success:^(id  _Nullable responseObject) {
+//                NSLog(@"%@删除了，%@",cell.model.content,responseObject);
+//            } failure:^(id  _Nullable errror) {
+//                NSLog(@"%@",errror);
+//            }];
+//        }) ;
     }
     [_collectionView reloadData];
+    
+    NSLog(@"删除收藏");
     
 //    for (ZJCollectionCell *cell in self.delArray) {
 ////        NSIndexPath *indexPath = [_collectionView indexPathForCell:cell];
@@ -142,6 +156,11 @@ static NSString * const reusedID = @"ZJCollectionView";
 ////        [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
 //    }
 //    [_collectionView reloadData];
+    
+//    上传删除。  /collect/delete
+   
+
+    
     
 }
 -(void)__cancelSelectedItem{
@@ -194,6 +213,7 @@ static NSString * const reusedID = @"ZJCollectionView";
 
 -(ZJBaseDataSource *)dataSource{
     if(!_dataSource){
+        NSLog(@"加载收藏数据");
         self.dataSource = [[ZJBaseDataSource alloc] initWithIdentity:reusedID configBlock:^(ZJCollectionCell * _Nonnull cell, id  _Nonnull model, NSIndexPath * _Nonnull indexPath) {
             cell.model = model;
         }];

@@ -7,5 +7,8 @@ target '咩啊' do
 
   # Pods for 咩啊
   pod 'Masonry', '~> 1.1.0'
+  pod 'SDWebImage', '~> 5.1.1'
+  pod 'AFNetworking','~> 3.2.1'
+  pod 'SVProgressHUD'
 
 end

@@ -1,16 +1,44 @@
 PODS:
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
+    - AFNetworking/NSURLSession
   - Masonry (1.1.0)
+  - SDWebImage (5.1.1):
+    - SDWebImage/Core (= 5.1.1)
+  - SDWebImage/Core (5.1.1)
+  - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
+  - AFNetworking (~> 3.2.1)
   - Masonry (~> 1.1.0)
+  - SDWebImage (~> 5.1.1)
+  - SVProgressHUD
 
 SPEC REPOS:
   trunk:
+    - AFNetworking
     - Masonry
+    - SDWebImage
+    - SVProgressHUD
 
 SPEC CHECKSUMS:
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  SDWebImage: 96d7f03415ccb28d299d765f93557ff8a617abd8
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: a959363233b715783cb89d2199c62f8b9c6ffa35
+PODFILE CHECKSUM: 7bdbecef683eff3e827f28ae21d9e2dd1c105f68
 
 COCOAPODS: 1.8.4

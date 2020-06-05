@@ -7,8 +7,10 @@
 //
 
 #import "ZJHotActivityViewController.h"
+#import "ZJHotActivityView.h"
+#import "ZJBaseDetailViewController.h"
 
-@interface ZJHotActivityViewController ()
+@interface ZJHotActivityViewController ()<ZJHotActivityViewDelegate>
 
 @end
 
@@ -18,16 +20,18 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"活动热榜";
+    
+    ZJHotActivityView *view = [[ZJHotActivityView alloc] initWithFrame:self.view.bounds dataSource:self.dataSource];
+    view.delegate = self;
+    self.view  = view;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)hotActivityViewCellDidClicked:(NSString *)nextController detailLink:(NSString *)url{
+    Class cls = NSClassFromString(nextController);
+    ZJBaseDetailViewController *vc = [[cls alloc] init];
+    vc.url = url;
+    [self.navigationController pushViewController:vc animated:YES];
 }
-*/
+
 
 @end

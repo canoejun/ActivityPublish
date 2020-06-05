@@ -34,6 +34,28 @@
     
 //    return nil;
 }
++(NSArray *)loadDataWith:(NSArray *)dataArray picLink:(nonnull NSString *)link{
+    NSMutableArray *resultArray = [NSMutableArray array];
+    for (int i = 0; i < dataArray.count; i++) {
+        NSDictionary *dic = dataArray[i];
+        ZJSignedModel *model = [[ZJSignedModel alloc] initWithDic:dic picLink:link];
+        [resultArray addObject:model];
+    }
+    return resultArray;
+}
+
+-(instancetype)initWithDic:(NSDictionary *)dic picLink:(NSString *)link{
+    if(self = [super initWithDic:dic picLink:link]){
+        self.title = dic[@"Title"];
+        self.time = dic[@"Begin_time"];
+        self.imageUrl = dic[@"Post"];
+        self.location = dic[@"Position"];
+        self.activityID = dic[@"Activity_ID"];
+    }
+    return self;
+}
+
+
 
 
 

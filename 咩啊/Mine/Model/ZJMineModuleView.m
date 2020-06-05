@@ -21,6 +21,7 @@
     ZJMineModuleView *backView = [[ZJMineModuleView alloc] initWithFrame:frame];
     
     self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+    
     //    imageView.backgroundColor = [UIColor blueColor];
     _imgView.frame = CGRectMake(0, 0, frame.size.width, frame.size.height*ratio);
     self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_imgView.frame), frame.size.width, frame.size.height*(1-ratio))];
@@ -36,9 +37,11 @@
     backView.state = state;
     
     [self.imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(backView);
-        make.height.equalTo(backView).multipliedBy(ratio);
+        make.width.height.equalTo(@45);
+        make.centerX.equalTo(backView.mas_centerX);
+        make.centerY.equalTo(backView.mas_centerY).offset(-20);
     }];
+    
     
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(backView);

@@ -9,7 +9,8 @@
 #import "ZJMineView.h"
 #import "ZJBaseDataSource.h"
 #import "ZJMineHeadView.h"
-
+#import "ZJLoginViewController.h"
+#import "ZJBaseNavigationController.h"
 
 @interface ZJMineView ()<UITableViewDelegate,ZJMineHeadViewDelegate>
 @property (nonatomic, strong, readwrite) ZJBaseDataSource *dataSource;
@@ -36,7 +37,7 @@ static NSString *const reusedID = @"ZJMineView";
     tableView.delegate = self;
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reusedID];
     [tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
-    
+    tableView.separatorInset = UIEdgeInsetsMake(7, 15, 7, 15);
     [self loadData];
     
     tableView.tableHeaderView = self.headView;
@@ -51,7 +52,9 @@ static NSString *const reusedID = @"ZJMineView";
 - (void)ZJMineHeadViewModuleViewDidClicked:(NSString *)nextControllerName{
     [self __pushNextController:nextControllerName];
 }
-
+-(void)ZJMineHeadViewModuleViewDidClicked:(NSString *)nextControllerName model:(id)model{
+    [self __pushNextController:nextControllerName model:model];
+}
 - (void)ZJMineHeadViewIdentityDidClicked {
     [self __IdentityNotOpen];
 }
@@ -70,7 +73,7 @@ static NSString *const reusedID = @"ZJMineView";
             break;
         case 2:
             //            NSLog(@"关于");
-            [self __pushNextController:@"ZJAboutUsController"];
+            [self __pushNextController:@"ZJAboutViewController"];
             break;
         case 3:
             //            NSLog(@"退出");
@@ -89,6 +92,12 @@ static NSString *const reusedID = @"ZJMineView";
         [self.delegate pushToNextController:nextControllerName];
     }
 }
+-(void)__pushNextController:(NSString *)nextControllerName model:(id)model{
+    if([self.delegate respondsToSelector:@selector(pushToNextController:model:)]){
+        [self.delegate pushToNextController:nextControllerName model:model];
+    }
+}
+
 
 //显示清楚缓存成功
 -(void)__clearCache{
@@ -110,7 +119,11 @@ static NSString *const reusedID = @"ZJMineView";
 }
 -(void)__logOut{
     UIAlertController *alertVc = [self __buildAlertVcWithTitle:@"退出登录" message:@"即将退出当前登录用户！" okIsNeed:YES  cancelIsNeed:YES okHandler:^(UIAlertAction *action) {
-        NSLog(@"点击确定");
+        
+        ZJLoginViewController * loginVc = [[ZJLoginViewController alloc] init];
+        ZJBaseNavigationController * nav = [[ZJBaseNavigationController alloc] initWithRootViewController:loginVc];
+        
+        [[UIApplication sharedApplication].keyWindow setRootViewController:nav];
     } cancelHander:^(UIAlertAction *action) {
         
     }];

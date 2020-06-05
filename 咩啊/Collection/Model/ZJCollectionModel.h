@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZJBaseDataModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJCollectionModel : NSObject
+@interface ZJCollectionModel : ZJBaseDataModel
 
 //图片地址
 @property (nonatomic, copy, readwrite) NSString *imgUrl;
@@ -18,15 +19,20 @@ NS_ASSUME_NONNULL_BEGIN
 //文字
 @property (nonatomic, copy, readwrite) NSString *content;
 
+@property (nonatomic, copy, readwrite) NSString *activityID;
+
+@property (nonatomic, copy, readwrite) NSString *activityState;
+
 //按钮的选中状态
 @property (nonatomic, assign, readwrite, getter=isSelected) BOOL selected;
 
 
-
-
 +(NSArray *)loadCollectionData;
 
--(instancetype)initWithDic:(NSDictionary *)dic;
+//-(instancetype)initWithDic:(NSDictionary *)dic;
+
++(void)removeDataWithLink:(NSString *)link params:(id _Nullable)params success:(successBlock)success failure:(failureBlock)failure;
+
 
 @end
 

@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZJBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJHotActivityViewController : UIViewController
+@interface ZJHotActivityViewController : ZJBaseViewController
 
 @end
 

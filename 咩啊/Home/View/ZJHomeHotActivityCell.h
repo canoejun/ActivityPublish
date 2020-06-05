@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class ZJHomeHotActivityModel;
+@class ZJHomeUniversalModel;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZJHomeHotActivityCell : UITableViewCell
-@property (nonatomic, strong, readwrite) ZJHomeHotActivityModel *model;
+@property (nonatomic, strong, readwrite) ZJHomeUniversalModel *model;
 @end
 
 NS_ASSUME_NONNULL_END

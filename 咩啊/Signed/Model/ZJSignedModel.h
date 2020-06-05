@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZJBaseDataModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJSignedModel : NSObject
+@interface ZJSignedModel : ZJBaseDataModel
 @property (nonatomic, copy, readwrite) NSString *title;
 
 @property (nonatomic, copy, readwrite) NSString *location;
@@ -19,7 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readwrite) NSString *imageUrl;
 
-+(NSArray *)loadSignedData;
+@property (nonatomic, copy, readwrite) NSString *activityID;
+
+//+(NSArray *)loadSignedData;
+
+//"Activity_ID": 1,
+//"Title": "棋艺大赛",
+//"Begin_time": "2019年06月04日 - 星期二",
+//"Post": "/images/1.jpg",
+//"Position": "西南大学第四运动场"
 @end
 
 NS_ASSUME_NONNULL_END

@@ -1,0 +1,81 @@
+//
+//  ZJBaseDataModel.m
+//  咩啊
+//
+//  Created by canoejun on 2020/5/30.
+//  Copyright © 2020 canoejun. All rights reserved.
+//
+
+#import "ZJBaseDataModel.h"
+#import "ZJFactory.h"
+#import "ZJCache.h"
+
+@implementation ZJBaseDataModel
++(void)loadDataWithLink:(NSString *)link params:(id _Nullable)params success:(successBlock)success failure:(failureBlock)failure method:(NSString *)method{
+    AFHTTPSessionManager *manager = [ZJFactory ZJFactoryAFNManage];
+    ZJCache *cache = [ZJCache shareInstance];
+    
+    if([cache containKey:link]){
+        success([cache objectForKey:link]);
+    }
+    
+    if([method isEqualToString:@"GET"]){
+            [manager GET:link parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                if (responseObject == nil){
+                    NSLog(@"respondObject is null");
+                    return;
+                }
+                
+        //        缓存链接的数据
+                
+                if(![cache containKey:link]){
+                    [cache addObjectWithKey:link object:responseObject];
+                }
+                
+                if([responseObject isKindOfClass:[NSArray class]]){
+                    success(responseObject);
+                }else if ([responseObject isKindOfClass:[NSString class]]){
+                    NSData *jsonData = [responseObject dataUsingEncoding:NSUTF8StringEncoding];
+                    NSError *error;
+                    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+                    success(dic);
+                }
+
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        //        NSLog(@"最热活动加载失败");
+        //        NSLog(@"%@",error);
+                failure(error);
+            }];
+    }else{
+//        [manager POST:<#(nonnull NSString *)#> parameters:<#(nullable id)#> progress:<#^(NSProgress * _Nonnull uploadProgress)uploadProgress#> success:<#^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)success#> failure:<#^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)failure#>];
+    }
+}
+
++(ZJBaseDataModel *)loadDetailDataWithLink:(NSString *)link success:(successBlock)success failure:(failureBlock)failure{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        加载模型数据
+        AFHTTPSessionManager *manager = [ZJFactory ZJFactoryAFNManage];
+        [manager GET:[NSString stringWithFormat:@"http://47.92.93.38:443%@",link] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//            NSLog(@"---%@",[NSString stringWithFormat:@"http://47.92.93.38:443%@",link]);
+            success(responseObject);
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            failure(error);
+        }];
+    });
+    
+    return nil;
+}
+
+
+
++(NSArray *)loadDataWith:(NSArray *)dataArray picLink:(nonnull NSString *)link{
+    return  nil;
+}
+-(instancetype)initWithDic:(NSDictionary *)dic picLink:(NSString *)link{
+    if(self = [super init]){
+        
+    }
+    return self;
+}
+
+@end

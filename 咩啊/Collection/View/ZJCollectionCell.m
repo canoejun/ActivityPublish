@@ -94,7 +94,7 @@
 
 -(UIButton *)selectBtn{
     if(!_selectBtn){
-        _selectBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        _selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _selectBtn.frame = CGRectMake(0, 0, 18, 18);
         _selectBtn.layer.borderColor = [UIColor grayColor].CGColor;
         _selectBtn.layer.borderWidth = 0.5f;

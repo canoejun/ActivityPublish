@@ -8,6 +8,7 @@
 
 #import "ZJMineViewController.h"
 #import "ZJMineView.h"
+#import "ZJMineNameMottoViewController.h"
 
 @interface ZJMineViewController ()<ZJMineViewDelegate>
 
@@ -24,11 +25,11 @@
         view;
     })];
 }
-
-- (void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
+
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
@@ -40,6 +41,14 @@
     Class ControllerClass = NSClassFromString(nextControllerName);
     
     UIViewController *vc = [[ControllerClass alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)pushToNextController:(NSString *)nextControllerName model:(id)model{
+    Class ControllerClass = NSClassFromString(nextControllerName);
+    
+    ZJMineNameMottoViewController *vc = [[ControllerClass alloc] init];
+    vc.model = model;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

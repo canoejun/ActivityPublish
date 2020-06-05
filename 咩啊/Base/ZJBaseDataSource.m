@@ -28,7 +28,6 @@
         [self.dataArray removeAllObjects];
     }
     [self.dataArray addObjectsFromArray:dataArray];
-    
 }
 -(void)removeData:(id)data{
     [self.dataArray removeObject:data];
@@ -40,10 +39,12 @@
 #pragma ---------------------UITableViewDataSource ------------------------
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    NSLog(@"%ld",self.dataArray.count);
     return !self.dataArray.count ? 0:self.dataArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.identity forIndexPath:indexPath];
+    
     id model = [self modelAtIndexPath:indexPath];
     
     if(self.configBlock){
@@ -56,6 +57,7 @@
 #pragma ---------------------UICollectionViewDataSource------------------------------
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    
      return !self.dataArray.count ? 0:self.dataArray.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath

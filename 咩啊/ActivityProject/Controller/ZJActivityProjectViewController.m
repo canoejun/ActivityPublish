@@ -7,8 +7,10 @@
 //
 
 #import "ZJActivityProjectViewController.h"
+#import "ZJActivityProjectView.h"
+#import "ZJActivityProjectDetailViewController.h"
 
-@interface ZJActivityProjectViewController ()
+@interface ZJActivityProjectViewController ()<ActivityProjectCellDidClickedDelagate>
 
 @end
 
@@ -18,16 +20,15 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"活动专题";
+    ZJActivityProjectView *view = [[ZJActivityProjectView alloc] initWithFrame:self.view.bounds dataSource:self.dataSource];
+    view.delegate = self;
+    self.view = view;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)activityProjectCellDidClicked:(NSString *)detailLink{
+    ZJActivityProjectDetailViewController *detailVc = [[ZJActivityProjectDetailViewController alloc] initWithDetailLink:detailLink];
+       [self.navigationController pushViewController:detailVc animated:YES];
 }
-*/
+
 
 @end
