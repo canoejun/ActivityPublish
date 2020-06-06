@@ -11,7 +11,7 @@
 #import "ZJBaseDetailViewController.h"
 
 @interface ZJCollectionController ()<ZJCollectionViewDelegate>
-//@property (nonatomic, strong, readwrite) ZJCollectionView *collectionView;
+@property (nonatomic, strong, readwrite) ZJCollectionView *collectionView;
 @end
 
 @implementation ZJCollectionController
@@ -21,10 +21,14 @@
     self.navigationItem.title = @"我的收藏";
     self.view.backgroundColor = [UIColor whiteColor];
     ZJCollectionView *view = [[ZJCollectionView alloc] initWithFrame:self.view.bounds];
-//    self.collectionView = view;
+    self.collectionView = view;
     self.view = view;
     view.delegate = self;
-    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.collectionView updateData];
 }
 
 
