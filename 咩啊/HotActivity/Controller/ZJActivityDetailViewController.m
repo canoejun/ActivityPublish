@@ -9,6 +9,7 @@
 #import "ZJActivityDetailViewController.h"
 #import "ZJActivityDetailView.h"
 #import "ZJSignActivityViewController.h"
+#import "ZJActivityDetailModel.h"
 
 @interface ZJActivityDetailViewController ()<ActivityDetailViewDelegate>
 
@@ -31,9 +32,11 @@
     
 }
 
--(void)signBtnDidClickedWithModel:(ZJActivityDetailModel *)model{
+-(void)signBtnDidClickedWithModel:(ZJActivityDetailModel *)model signBtn:(UIButton * _Nonnull)signBtn{
     ZJSignActivityViewController *signVc = [[ZJSignActivityViewController alloc] init];
 //    signVc.model = model;
+    signVc.activityID = model.ActivityID;
+    signVc.signBtn = signBtn;
     [self.navigationController pushViewController:signVc animated:YES];
 }
 

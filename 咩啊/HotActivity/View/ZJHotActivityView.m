@@ -22,13 +22,14 @@ static NSString * const reusedID = @"hotCell";
 -(instancetype)initWithFrame:(CGRect)frame dataSource:(ZJBaseDataSource *)dataSource{
     if(self = [super initWithFrame:frame]){
         [self __setUI];
-        NSString *link = @"http://47.92.93.38:8080/activity/select/hot";
+        NSString *link = @"http://47.92.93.38:443/activity/select/hot";
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             [ZJHomeUniversalModel loadDataWithLink:link success:^(id  _Nullable responseObject) {
                 NSArray *dataArray = [NSArray array];
                 if([responseObject isKindOfClass:[NSArray class]]){
                     dataArray = responseObject;
                 }//可能还存在其他的字典类型
+//                NSLog(@"%@",responseObject);
                 NSArray *array =[ZJHomeUniversalModel loadDataWith:dataArray picLink:link];
                 [self.dataSource addDataArray:array];
                 [self.tableView reloadData];
@@ -40,22 +41,22 @@ static NSString * const reusedID = @"hotCell";
     return self;
 }
 
-#pragma ---------------------delegate------------------------------
+#pragma mark ---------------------delegate------------------------------
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    跳转到详情界面
     ZJHotActivityCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if([self.delegate respondsToSelector:@selector(hotActivityViewCellDidClicked:detailLink:)]){
-        [self.delegate hotActivityViewCellDidClicked:@"ZJActivityDetailViewController" detailLink:[NSString stringWithFormat:@"/activity/select/detail/%@",cell.model.activityID]];
+        [self.delegate hotActivityViewCellDidClicked:@"ZJActivityDetailViewController" detailLink:cell.model.activityID];
     }
 }
 
-#pragma ---------------------privateMethod------------------------------
+#pragma mark ---------------------privateMethod------------------------------
 -(void)__setUI{
     [self addSubview:self.tableView];
 }
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 -(UITableView *)tableView{
     if(!_tableView){
         _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];

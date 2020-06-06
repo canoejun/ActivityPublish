@@ -36,10 +36,9 @@
     return self.dataArray.count > indexPath.row ? self.dataArray[indexPath.row] : nil;
 }
 
-#pragma ---------------------UITableViewDataSource ------------------------
+#pragma mark ---------------------UITableViewDataSource ------------------------
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    NSLog(@"%ld",self.dataArray.count);
     return !self.dataArray.count ? 0:self.dataArray.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -54,7 +53,7 @@
     return cell;
 }
 
-#pragma ---------------------UICollectionViewDataSource------------------------------
+#pragma mark ---------------------UICollectionViewDataSource------------------------------
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
@@ -73,7 +72,7 @@
 }
 
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 -(NSMutableArray *)dataArray{
     if(!_dataArray){
         self.dataArray = [NSMutableArray array];

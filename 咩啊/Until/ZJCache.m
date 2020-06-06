@@ -37,15 +37,19 @@
     
 }
 -(void)updateObjectWithKey:(id)key object:(id)object{
-    
+    self.dataDic[key] = object;
 }
+
+-(void)removeObjectWithKey:(id)key{
+    [self.dataDic removeObjectForKey:key];
+}
+
 -(id)objectForKey:(id)key{
     if([self containKey:key]){
         return nil;
     }
     return [self.dataDic objectForKey:key];
 }
-
 
 -(NSMutableDictionary *)dataDic{
     if(!_dataDic){

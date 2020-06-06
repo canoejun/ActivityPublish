@@ -12,8 +12,8 @@
 
 @interface ZJMineHeadView ()
 @property (nonatomic, strong, readwrite) ZJMineHeadViewBannerModel *headViewBannerModel;
-@property (nonatomic, strong, readwrite) UIButton *nameLable;
-@property (nonatomic, strong, readwrite) UIButton *idLabel;
+@property (nonatomic, strong, readwrite) UILabel *nameLable;
+@property (nonatomic, strong, readwrite) UILabel *idLabel;
 @end
 
 @implementation ZJMineHeadView
@@ -24,31 +24,36 @@
     }
     return self;
 }
+-(void)updateNameMotto{
+    [ZJMineHeadViewBannerModel loadNameMottoData:^(ZJMineHeadViewBannerModel * _Nonnull model) {
+        self.headViewBannerModel = model;
+        self.nameLable.text = model.name;
+        self.idLabel.text = model.motto;
+    }];
+}
 
 -(ZJMineHeadViewBannerModel *)headViewBannerModel{
     if(!_headViewBannerModel){
-        _headViewBannerModel = [ZJMineHeadViewBannerModel loadDataWithLink:@"" mottoLink:@"" ];
+        _headViewBannerModel = [[ZJMineHeadViewBannerModel alloc] init];
     }
     return _headViewBannerModel;
 }
--(UIButton *)nameLable{
+-(UILabel *)nameLable{
     if(!_nameLable){
-        _nameLable = self.nameLable = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_nameLable setTitle:self.headViewBannerModel.name forState:UIControlStateNormal];
-        [_nameLable setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _nameLable.frame = CGRectMake(0, 0, 200, 25);
-        [_nameLable addTarget:self action:@selector(__changeNameAndMotto:) forControlEvents:UIControlEventTouchUpInside];
+        _nameLable = [[UILabel alloc] init];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(__changeNameAndMotto:)];
+        [_nameLable addGestureRecognizer:tap];
+        _nameLable.userInteractionEnabled = YES;
     }
     return _nameLable;
 }
 
--(UIButton *)idLabel{
+-(UILabel *)idLabel{
     if(!_idLabel){
-        _idLabel = self.nameLable = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_idLabel setTitle:self.headViewBannerModel.motto forState:UIControlStateNormal];
-        _idLabel.frame = CGRectMake(0, 0, 200, 25);
-        [_idLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_idLabel addTarget:self action:@selector(__changeNameAndMotto:) forControlEvents:UIControlEventTouchUpInside];
+        _idLabel = [[UILabel alloc] init];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(__changeNameAndMotto:)];
+        [_idLabel addGestureRecognizer:tap];
+        _idLabel.userInteractionEnabled = YES;
     }
     return _idLabel;
 }
@@ -59,14 +64,11 @@
     iconImageView.frame = CGRectMake(15, 40, 85, 85);
     [self addSubview:iconImageView];
     
-    CGFloat left = CGRectGetMaxX(iconImageView.frame) - 20;
+    CGFloat left = CGRectGetMaxX(iconImageView.frame) +17;
     self.nameLable.frame = CGRectMake(left, iconImageView.frame.origin.y + 15, 200, 25);
     [self addSubview:_nameLable];
     self.idLabel.frame = CGRectMake(left, CGRectGetMaxY(_nameLable.frame)+15, 200, 25);
     [self addSubview:_idLabel];
-    
-    [self layoutIfNeeded];
-    [self setNeedsLayout];
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(iconImageView.frame)+25, self.frame.size.width, 120)];
     NSArray *moduleImageName =  @[@"signed",@"collection",@"history_activity",@"identity_authen"];
@@ -92,7 +94,6 @@
     placeHolderView.backgroundColor = [UIColor whiteColor];
     [self addSubview:placeHolderView];
 }
-
 
 -(void)__changeNameAndMotto:(UITapGestureRecognizer *)tap{
 //    显示更改名字和座右铭

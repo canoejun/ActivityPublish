@@ -8,9 +8,10 @@
 
 #import "ZJCollectionController.h"
 #import "ZJCollectionView.h"
+#import "ZJBaseDetailViewController.h"
 
-@interface ZJCollectionController ()
-
+@interface ZJCollectionController ()<ZJCollectionViewDelegate>
+//@property (nonatomic, strong, readwrite) ZJCollectionView *collectionView;
 @end
 
 @implementation ZJCollectionController
@@ -19,19 +20,19 @@
     [super viewDidLoad];
     self.navigationItem.title = @"我的收藏";
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.view = [[ZJCollectionView alloc] initWithFrame:self.view.bounds];
+    ZJCollectionView *view = [[ZJCollectionView alloc] initWithFrame:self.view.bounds];
+//    self.collectionView = view;
+    self.view = view;
+    view.delegate = self;
     
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+-(void)collectionViewCellDidClickedNextController:(NSString *)nextController detailLink:(NSString *)url{
+        Class cls = NSClassFromString(nextController);
+        ZJBaseDetailViewController *vc = [[cls alloc] init];
+        vc.url = url;
+        [self.navigationController pushViewController:vc animated:YES];
 }
-*/
-
 @end

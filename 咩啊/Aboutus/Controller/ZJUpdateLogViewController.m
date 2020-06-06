@@ -21,7 +21,7 @@
     self.title = @"更新日志";
 }
 
-#pragma mark - Table view data source
+#pragma mark mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

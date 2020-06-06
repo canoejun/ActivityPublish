@@ -10,8 +10,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJSignedView : UIView
+@protocol ZJSignViewDelegate <NSObject>
 
+-(void)signViewCellDidClicked:(NSString *_Nullable)nextController detailLink:(NSString *_Nullable)url;
+
+@end
+
+
+
+@interface ZJSignedView : UIView
+@property (nonatomic, weak, readwrite) id<ZJSignViewDelegate> delegate;
+-(void)updateData;
 @end
 
 NS_ASSUME_NONNULL_END

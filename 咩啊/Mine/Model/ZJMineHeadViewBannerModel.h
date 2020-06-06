@@ -7,15 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ZJBaseDataModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJMineHeadViewBannerModel : NSObject
+@interface ZJMineHeadViewBannerModel : ZJBaseDataModel
 @property (nonatomic, copy, readwrite) NSString *name;
 @property (nonatomic, copy, readwrite) NSString *motto;
 
-+(instancetype)loadDataWithLink:(NSString *)nameLink mottoLink:(NSString *)mottoLink;
-
++(void)loadNameMottoData:(void(^)(ZJMineHeadViewBannerModel *model))block;
++(void)upDateNameMottoDataWithModel:(ZJMineHeadViewBannerModel *)model;
 @end
 
 NS_ASSUME_NONNULL_END

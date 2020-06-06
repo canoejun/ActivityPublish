@@ -32,7 +32,6 @@
 
 -(void)__setUPChildVC{
     
-//    [self __addChildVCWithClass:[ZJHomeViewController new] image:@"home" selImage:@"home_sel" title:@"主页"];
     UIViewController *homeVc = [self __buildChildVCWithClass:[ZJHomeViewController new] image:@"home" selImage:@"home_sel" title:@"主页"];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:homeVc];
     [nav.navigationBar setTintColor:[UIColor whiteColor]];
@@ -40,7 +39,6 @@
     
     UIViewController *mineVc = [self __buildChildVCWithClass:[ZJMineViewController new] image:@"mine" selImage:@"mine_sel" title:@"我的"];
     [self addChildViewController:mineVc];
-    
 }
 
 

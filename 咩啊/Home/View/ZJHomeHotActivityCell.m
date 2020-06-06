@@ -28,7 +28,7 @@
 
 -(void)setModel:(ZJHomeUniversalModel *)model{
     _model = model;
-    NSLog(@"%@",model.activityImageUrl);
+//    NSLog(@"%@",model.activityImageUrl);
     self.imageView.image = [UIImage imageNamed:model.activityImageUrl];
     self.textLabel.text = [NSString stringWithFormat:@"#%@",model.title];
     self.detailTextLabel.text = [NSString stringWithFormat:@"已有%@人参加",model.joinPeopleCount];

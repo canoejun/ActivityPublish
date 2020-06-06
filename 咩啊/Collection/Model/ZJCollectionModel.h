@@ -27,9 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readwrite, getter=isSelected) BOOL selected;
 
 
-+(NSArray *)loadCollectionData;
 
-//-(instancetype)initWithDic:(NSDictionary *)dic;
+
+
+//+(NSArray *)loadCollectionData;
+
 
 +(void)removeDataWithLink:(NSString *)link params:(id _Nullable)params success:(successBlock)success failure:(failureBlock)failure;
 

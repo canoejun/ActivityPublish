@@ -7,9 +7,17 @@
 //
 
 #import "ZJSignActivityView.h"
+#import "ZJSignActivityModuleView.h"
+#import "ZJUsersModel.h"
+#import "SVProgressHUD/SVProgressHUD.h"
+#import "ZJActivityDetailOuterModel.h"
 
 @interface ZJSignActivityView ()<UITextFieldDelegate>
 @property (nonatomic, strong, readwrite) UITextField *selectTextField;
+
+@property (nonatomic, strong, readwrite) ZJSignActivityModuleView *nameView;
+@property (nonatomic, strong, readwrite) ZJSignActivityModuleView *numberView;
+@property (nonatomic, strong, readwrite) ZJSignActivityModuleView *noteView;
 @end
 
 @implementation ZJSignActivityView
@@ -29,14 +37,20 @@
     CGFloat height = 100;
     CGFloat width = self.frame.size.width - 2*left;
     
-    UIView *nameView = [self __buildTextFieldWithFrame:CGRectMake(left, 135, width, height) title:@"姓名" placeText:@"请输入你的姓名"];
+    ZJSignActivityModuleView *nameView = [[ZJSignActivityModuleView alloc] initTextFieldWithFrame:CGRectMake(left, 135, width, height) title:@"姓名" placeText:@"请输入你的姓名"];
+    self.nameView = nameView;
+    nameView.textFiled.delegate = self;
     [self addSubview:nameView];
 //    添加手机号
-    UIView *numberView = [self __buildTextFieldWithFrame:CGRectMake(left, CGRectGetMaxY(nameView.frame), width, height) title:@"手机号" placeText:@"请输入你的手机号"];
+    ZJSignActivityModuleView *numberView = [[ZJSignActivityModuleView alloc] initTextFieldWithFrame:CGRectMake(left, CGRectGetMaxY(nameView.frame), width, height) title:@"手机号" placeText:@"请输入你的手机号"];
+    self.numberView = numberView;
+    numberView.textFiled.delegate = self;
     [self addSubview:numberView];
     
 //添加备注
-    UIView *noteView = [self __buildTextFieldWithFrame:CGRectMake(left, CGRectGetMaxY(numberView.frame), width, height) title:@"备注" placeText:@"请输入备注"];
+    ZJSignActivityModuleView *noteView = [[ZJSignActivityModuleView alloc] initTextFieldWithFrame:CGRectMake(left, CGRectGetMaxY(numberView.frame), width, height) title:@"备注" placeText:@"请输入备注"];
+    self.noteView = noteView;
+    noteView.textFiled.delegate = self;
     [self addSubview:noteView];
     
 //    添加报名的按钮
@@ -54,42 +68,50 @@
 }
 
 -(void)__signBtnDidClicked{
+//    判断是否为空
+//    if(_nameView.textFiled.text.length <= 0 || _numberView.textFiled.text.length<=0 || _noteView.textFiled.text.length <= 0){
+//        [SVProgressHUD showErrorWithStatus:@"请检查输入是否为空"];
+//        return;
+//    }
 //    上传网络
-    NSLog(@"%s",__func__);
+//    /apply/create
+    NSDictionary *params = @{
+        @"user_id":[ZJUsersModel shareInstance].userID,
+        @"activity_id":_currentActivityID,
+        @"name":[NSString stringWithFormat:@"%@",_nameView.textFiled.text],
+        @"phone":[NSString stringWithFormat:@"%@",_numberView.textFiled.text],
+        @"other":[NSString stringWithFormat:@"%@",_noteView.textFiled.text]
+    };
+    dispatch_queue_t queue = dispatch_queue_create("signQueue", DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_sync(queue, ^{
+        [SVProgressHUD showProgress:30 status:@"报名中～～"];
+        [ZJActivityDetailOuterModel upLoadDataWithLink:@"http://47.92.93.38:443/apply/create" params:params success:^(id  _Nullable responseObject) {
+            [SVProgressHUD showSuccessWithStatus:@"报名成功"];
+            if([self.delegate respondsToSelector:@selector(popViewController)]){
+                [self.delegate popViewController];
+            }
+        } failure:^(id  _Nullable errror) {
+            [SVProgressHUD showErrorWithStatus:@"报名失败！请重试"];
+            NSLog(@"%@",errror);
+        }];
+    });
+    
+    [self.signBtn setBackgroundColor:[UIColor colorWithRed:255/255.0 green:57/255.0 blue:56/255.0 alpha:1.0]];
+    self.signBtn.selected = YES;
 }
 
--(UIView *)__buildTextFieldWithFrame:(CGRect)frame title:(NSString *)title placeText:(NSString *)placeText{
-    UIView *view = [[UIView alloc] initWithFrame:frame];
-    
-    CGFloat width = frame.size.width;
-    
-//    添加标题
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, 25)];
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName: [UIFont fontWithName:@"PingFang SC" size: 21],NSForegroundColorAttributeName: [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0]}];
-    titleLabel.attributedText = string;
-    [view addSubview:titleLabel];
-    
-//    添加文本框
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(titleLabel.frame)+10, width, 35)];
-    textField.placeholder = placeText;
-    textField.delegate = self;
-    [view addSubview:textField];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(textField.frame)+10, width, 1)];
-    lineView.alpha = 0.6;
-    lineView.backgroundColor = [UIColor lightGrayColor];
-    [view addSubview:lineView];
-    
-    return view;
-}
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     self.selectTextField = textField;
-    [self becomeFirstResponder];
     return YES;
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.selectTextField resignFirstResponder];
 }
+
+
+
+
 @end

@@ -53,12 +53,13 @@
 		0EA51209247D3D4B004FE826 /* ZJMoreDetailButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA51208247D3D4B004FE826 /* ZJMoreDetailButton.m */; };
 		0EA51214247D49A1004FE826 /* ZJActivityProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA51213247D49A1004FE826 /* ZJActivityProjectViewController.m */; };
 		0EA51217247D49C2004FE826 /* ZJHotActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA51216247D49C2004FE826 /* ZJHotActivityViewController.m */; };
+		0EA95F9C2489F49800E4826A /* ZJSignActivityModuleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA95F9B2489F49800E4826A /* ZJSignActivityModuleView.m */; };
+		0EA95F9F248A2B4E00E4826A /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA95F9E248A2B4E00E4826A /* UIImage+Color.m */; };
+		0EA95FA2248A720E00E4826A /* ZJActivityDetailOuterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA95FA1248A720E00E4826A /* ZJActivityDetailOuterModel.m */; };
 		0EBBBE162481F20600416B52 /* ZJRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE062481F20500416B52 /* ZJRegisterViewController.m */; };
 		0EBBBE172481F20600416B52 /* ZJLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE072481F20500416B52 /* ZJLoginViewController.m */; };
 		0EBBBE182481F20600416B52 /* ZJForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE0B2481F20500416B52 /* ZJForgetPwdViewController.m */; };
-		0EBBBE192481F20600416B52 /* ZJLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE0E2481F20500416B52 /* ZJLoginModel.m */; };
 		0EBBBE1A2481F20600416B52 /* ZJLoginLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE102481F20500416B52 /* ZJLoginLabel.m */; };
-		0EBBBE1B2481F20600416B52 /* ZJVerificationCodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE112481F20500416B52 /* ZJVerificationCodeButton.m */; };
 		0EBBBE1C2481F20600416B52 /* ZJTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE152481F20500416B52 /* ZJTextField.m */; };
 		0EBBBE202481F23C00416B52 /* UIButton+Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE1E2481F23C00416B52 /* UIButton+Login.m */; };
 		0EBBBE232481F5D000416B52 /* ZJFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBBE222481F5D000416B52 /* ZJFactory.m */; };
@@ -176,19 +177,21 @@
 		0EA51213247D49A1004FE826 /* ZJActivityProjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJActivityProjectViewController.m; sourceTree = "<group>"; };
 		0EA51215247D49C2004FE826 /* ZJHotActivityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJHotActivityViewController.h; sourceTree = "<group>"; };
 		0EA51216247D49C2004FE826 /* ZJHotActivityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJHotActivityViewController.m; sourceTree = "<group>"; };
+		0EA95F9A2489F49800E4826A /* ZJSignActivityModuleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJSignActivityModuleView.h; sourceTree = "<group>"; };
+		0EA95F9B2489F49800E4826A /* ZJSignActivityModuleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJSignActivityModuleView.m; sourceTree = "<group>"; };
+		0EA95F9D248A2B4E00E4826A /* UIImage+Color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
+		0EA95F9E248A2B4E00E4826A /* UIImage+Color.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
+		0EA95FA0248A720E00E4826A /* ZJActivityDetailOuterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJActivityDetailOuterModel.h; sourceTree = "<group>"; };
+		0EA95FA1248A720E00E4826A /* ZJActivityDetailOuterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJActivityDetailOuterModel.m; sourceTree = "<group>"; };
 		0EBBBE062481F20500416B52 /* ZJRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJRegisterViewController.m; sourceTree = "<group>"; };
 		0EBBBE072481F20500416B52 /* ZJLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJLoginViewController.m; sourceTree = "<group>"; };
 		0EBBBE082481F20500416B52 /* ZJForgetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJForgetPwdViewController.h; sourceTree = "<group>"; };
 		0EBBBE092481F20500416B52 /* ZJRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJRegisterViewController.h; sourceTree = "<group>"; };
 		0EBBBE0A2481F20500416B52 /* ZJLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJLoginViewController.h; sourceTree = "<group>"; };
 		0EBBBE0B2481F20500416B52 /* ZJForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJForgetPwdViewController.m; sourceTree = "<group>"; };
-		0EBBBE0D2481F20500416B52 /* ZJLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJLoginModel.h; sourceTree = "<group>"; };
-		0EBBBE0E2481F20500416B52 /* ZJLoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJLoginModel.m; sourceTree = "<group>"; };
 		0EBBBE102481F20500416B52 /* ZJLoginLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJLoginLabel.m; sourceTree = "<group>"; };
-		0EBBBE112481F20500416B52 /* ZJVerificationCodeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJVerificationCodeButton.m; sourceTree = "<group>"; };
 		0EBBBE122481F20500416B52 /* ZJTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJTextField.h; sourceTree = "<group>"; };
 		0EBBBE132481F20500416B52 /* ZJLoginLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJLoginLabel.h; sourceTree = "<group>"; };
-		0EBBBE142481F20500416B52 /* ZJVerificationCodeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJVerificationCodeButton.h; sourceTree = "<group>"; };
 		0EBBBE152481F20500416B52 /* ZJTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJTextField.m; sourceTree = "<group>"; };
 		0EBBBE1D2481F22200416B52 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		0EBBBE1E2481F23C00416B52 /* UIButton+Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Login.m"; sourceTree = "<group>"; };
@@ -593,6 +596,8 @@
 			children = (
 				0E6FCB4F2481264500D62698 /* ZJActivityDetailModel.h */,
 				0E6FCB502481264500D62698 /* ZJActivityDetailModel.m */,
+				0EA95FA0248A720E00E4826A /* ZJActivityDetailOuterModel.h */,
+				0EA95FA1248A720E00E4826A /* ZJActivityDetailOuterModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -608,6 +613,8 @@
 				0E6FCB4D248125C500D62698 /* ZJActivityDetailView.m */,
 				0E6FCB5B24816CCC00D62698 /* ZJSignActivityView.h */,
 				0E6FCB5C24816CCC00D62698 /* ZJSignActivityView.m */,
+				0EA95F9A2489F49800E4826A /* ZJSignActivityModuleView.h */,
+				0EA95F9B2489F49800E4826A /* ZJSignActivityModuleView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -683,8 +690,6 @@
 		0EBBBE0C2481F20500416B52 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0EBBBE0D2481F20500416B52 /* ZJLoginModel.h */,
-				0EBBBE0E2481F20500416B52 /* ZJLoginModel.m */,
 				0E2AC9212489E1E7006C4DF0 /* ZJUsersModel.h */,
 				0E2AC9222489E1E7006C4DF0 /* ZJUsersModel.m */,
 			);
@@ -694,8 +699,6 @@
 		0EBBBE0F2481F20500416B52 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0EBBBE142481F20500416B52 /* ZJVerificationCodeButton.h */,
-				0EBBBE112481F20500416B52 /* ZJVerificationCodeButton.m */,
 				0EBBBE122481F20500416B52 /* ZJTextField.h */,
 				0EBBBE152481F20500416B52 /* ZJTextField.m */,
 				0EBBBE132481F20500416B52 /* ZJLoginLabel.h */,
@@ -755,6 +758,8 @@
 				0E92A1652488D91400E438CE /* ZJCache.m */,
 				0EBBBE1F2481F23C00416B52 /* UIButton+Login.h */,
 				0EBBBE1E2481F23C00416B52 /* UIButton+Login.m */,
+				0EA95F9D248A2B4E00E4826A /* UIImage+Color.h */,
+				0EA95F9E248A2B4E00E4826A /* UIImage+Color.m */,
 				0EBBBE1D2481F22200416B52 /* Constants.h */,
 			);
 			path = Until;
@@ -904,7 +909,6 @@
 				0EBBBE3B24820EF000416B52 /* ZJMineHeadViewBannerModel.m in Sources */,
 				0E6FCB392480AE3A00D62698 /* ZJHotActivityView.m in Sources */,
 				0EBBBE332481FC1A00416B52 /* ZJAboutViewController.m in Sources */,
-				0EBBBE192481F20600416B52 /* ZJLoginModel.m in Sources */,
 				0E0A171C2478B069004E7A10 /* ZJMineHeadView.m in Sources */,
 				0EA511FA247D33A0004FE826 /* ZJHomeActivityNewsCell.m in Sources */,
 				0E6FCB362480AAD400D62698 /* ZJHotActivityCell.m in Sources */,
@@ -919,15 +923,17 @@
 				0EC62A2424782C8A0073346F /* ZJSignedController.m in Sources */,
 				0EBBBE202481F23C00416B52 /* UIButton+Login.m in Sources */,
 				0EBBBE1C2481F20600416B52 /* ZJTextField.m in Sources */,
+				0EA95FA2248A720E00E4826A /* ZJActivityDetailOuterModel.m in Sources */,
 				0E6FCB422480BD9600D62698 /* ZJActivityProjectView.m in Sources */,
 				0E0A172524791777004E7A10 /* ZJSignedModel.m in Sources */,
-				0EBBBE1B2481F20600416B52 /* ZJVerificationCodeButton.m in Sources */,
 				0E6FCB4E248125C500D62698 /* ZJActivityDetailView.m in Sources */,
+				0EA95F9C2489F49800E4826A /* ZJSignActivityModuleView.m in Sources */,
 				0EA51214247D49A1004FE826 /* ZJActivityProjectViewController.m in Sources */,
 				0E8610C52477D44300A1701E /* ZJMineViewController.m in Sources */,
 				0E0A172224791564004E7A10 /* ZJSignedView.m in Sources */,
 				0EBBBE1A2481F20600416B52 /* ZJLoginLabel.m in Sources */,
 				0E1B9AE8247838E600AAF813 /* ZJBaseNavigationController.m in Sources */,
+				0EA95F9F248A2B4E00E4826A /* UIImage+Color.m in Sources */,
 				0EBBBE172481F20600416B52 /* ZJLoginViewController.m in Sources */,
 				0E2AC9232489E1E7006C4DF0 /* ZJUsersModel.m in Sources */,
 				0EA51200247D3411004FE826 /* ZJHomeUniversalModel.m in Sources */,

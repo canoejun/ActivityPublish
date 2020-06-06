@@ -30,6 +30,7 @@
     
     CGFloat startY = CGRectGetMaxY(self.navigationController.navigationBar.frame);
     ZJActivityProjectDetailView *view = [[ZJActivityProjectDetailView alloc] initWithFrame:CGRectMake(0, startY < 0 ? 0 : startY, self.view.frame.size.width, self.view.frame.size.height - startY) detailLink:self.url];
+//    NSLog(@"%@",self.url);
     view.detailViewDelegate = self;
     [self.view addSubview:view];
 

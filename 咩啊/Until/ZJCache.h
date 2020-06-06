@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL)containKey:(id)key;
 -(id)objectForKey:(id)key;
 -(void)updateObjectWithKey:(id)key object:(id)object;
+-(void)removeObjectWithKey:(id)key;
 @end
 
 NS_ASSUME_NONNULL_END

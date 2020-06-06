@@ -54,7 +54,7 @@
         _rankImage.image = [self __imageWithColor:[UIColor clearColor] size:CGSizeMake(25, 25) text:[NSString stringWithFormat:@"%ld",(indexPath.row + 1)] textAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17],NSForegroundColorAttributeName:[UIColor lightGrayColor]} circular:YES];
     }
 }
-#pragma ---------------------privateMethod------------------------------
+#pragma mark ---------------------privateMethod------------------------------
 
 -(void)__setUI{
     [self.contentView addSubview:self.activityImage];
@@ -151,7 +151,7 @@
 }
 
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 -(UILabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];

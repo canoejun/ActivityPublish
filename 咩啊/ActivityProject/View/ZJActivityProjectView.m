@@ -28,7 +28,7 @@ static NSString * const reusedID = @"ActProjectCell";
 }
 
 
-#pragma ---------------------delegate------------------------------
+#pragma mark ---------------------delegate------------------------------
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    将cell传递过去 变成链接传递过去
@@ -39,12 +39,12 @@ static NSString * const reusedID = @"ActProjectCell";
     }
 }
 
-#pragma ---------------------privateMethod------------------------------
+#pragma mark ---------------------privateMethod------------------------------
 -(void)__setUI{
     [self addSubview:self.tableView];
 }
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 -(UITableView *)tableView{
     if(!_tableView){
         _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];

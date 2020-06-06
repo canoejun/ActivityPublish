@@ -8,6 +8,7 @@
 
 #import "ZJCollectionModel.h"
 
+
 @implementation ZJCollectionModel
 +(NSArray *)loadCollectionData{
     
@@ -63,7 +64,7 @@
     NSMutableArray *resultArray = [NSMutableArray array];
     for (int i = 0; i < dataArray.count; i++) {
         NSDictionary *dic = dataArray[i];
-        ZJCollectionModel *model = [[ZJCollectionModel alloc] initWithDic:dic picLink:link];
+        ZJCollectionModel *model = [[ZJCollectionModel alloc] initWithDic:dic];
         [resultArray addObject:model];
     }
     return resultArray;
@@ -72,8 +73,14 @@
 
 -(instancetype)initWithDic:(NSDictionary *)dic{
     if(self = [super init]){
-        self.imgUrl = dic[@"imgUrl"];
-        self.content = dic[@"content"];
+        NSString *link = dic[@"Post"];
+        if(link.length <= 0){
+            link = @"logo";
+        }else{
+            link = [NSString stringWithFormat:@"http://47.92.93.38:443%@",link];
+        }
+        self.imgUrl = link;
+        self.content = dic[@"Title"];
         self.selected = [dic[@"selected"] boolValue];
         self.activityID = dic[@"Activity_ID"];
         self.activityState = dic[@"Activity_State"];
@@ -81,12 +88,21 @@
     return self;
 }
 
-
 +(void)removeDataWithLink:(NSString *)link params:(id _Nullable)params success:(successBlock)success failure:(failureBlock)failure{
     [super loadDataWithLink:link params:params success:^(id  _Nullable responseObject) {
         success(responseObject);
     } failure:^(id  _Nullable errror) {
         failure(errror);
     } method:@"POST"];
+    
+//    AFHTTPSessionManager *manager = [ZJFactory ZJFactoryAFNManage];
+//    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+//    NSLog(@"%@ %@",link,params);
+//    [manager POST:link parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSLog(@"%@",responseObject);
+//        success(responseObject);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        failure(error);
+//    }];
 }
 @end

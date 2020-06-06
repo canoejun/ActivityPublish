@@ -34,34 +34,29 @@ static NSString * const reusedID = @"ZJHistory";
 }
 
 -(void)__setUI{
-    
-    NSArray *dataArray = [ZJCollectionModel loadCollectionData];
-    if(!dataArray || dataArray.count <= 0){
+    if(!self.dataSource.dataArray || self.dataSource.dataArray.count <= 0){
         self.collectionView.hidden = YES;
         self.imageView.hidden = NO;
     }else{
         self.collectionView.hidden = NO;
         self.imageView.hidden = YES;
-        [self.dataSource addDataArray:dataArray];
     }
 }
 
 -(void)__updateData{
-    //    /apply/select
-    //    更新SETUI和tableview
-    NSString *link = @"";
-//    [ZJCollectionModel loadDataWithLink:link params:@{@"phoneNumber":[ZJUsersModel shareInstance].phoneNumber} success:^(id  _Nullable responseObject) {
-//        //        ZJSignedModel
-//        NSArray *dataArray = [ZJCollectionModel loadDataWith:responseObject picLink:@""];
-//        [self.dataSource addDataArray:dataArray];
-//        [self.collectionView reloadData];
-//    } failure:^(id  _Nullable errror) {
-//        NSLog(@"%@",errror);
-//    } method:@"POST"];
+    NSString *link = @"http://47.92.93.38:443/apply/history";
+    [ZJCollectionModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID} success:^(id  _Nullable responseObject) {
+        //        ZJSignedModel
+        NSArray *dataArray = [ZJCollectionModel loadDataWith:responseObject picLink:@""];
+        [self.dataSource addDataArray:dataArray];
+        [self.collectionView reloadData];
+    } failure:^(id  _Nullable errror) {
+        NSLog(@"%@",errror);
+    } method:@"POST"];
 }
 
 
-#pragma ---------------------delegate------------------------------
+#pragma mark ---------------------delegate------------------------------
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return CGSizeMake(self.collectionView.frame.size.width * 0.5, 140);
 }
@@ -83,7 +78,7 @@ static NSString * const reusedID = @"ZJHistory";
     return 0.f;
 }
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 - (UIView *)imageView{
     if(!_imageView){
         self.imageView = [[UIView alloc] initWithFrame:self.frame];
@@ -120,7 +115,6 @@ static NSString * const reusedID = @"ZJHistory";
 
 -(ZJBaseDataSource *)dataSource{
     if(!_dataSource){
-        NSLog(@"加载历史数据");
         self.dataSource = [[ZJBaseDataSource alloc] initWithIdentity:reusedID configBlock:^(ZJCollectionCell * _Nonnull cell, id  _Nonnull model, NSIndexPath * _Nonnull indexPath) {
             cell.model = model;
         }];

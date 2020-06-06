@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZJMineHeadView : UIView
 @property (nonatomic, weak, readwrite) id<ZJMineHeadViewDelegate> delegate;
+-(void)updateNameMotto;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,26 +11,18 @@
 #import "ZJTextField.h"
 #import "ZJLoginLabel.h"
 #import "SVProgressHUD/SVProgressHUD.h"
-#import "ZJFactory.h"
-#import "ZJVerificationCodeButton.h"
+#import "ZJUsersModel.h"
 
 @interface ZJForgetPwdViewController ()
 /** 手机号  */
 @property (nonatomic,strong) ZJTextField * userPhoneNumber;
-/** 验证码  */
-@property (nonatomic,strong) ZJTextField * verificationCode;
 /** 第一次密码  */
 @property (nonatomic,strong) ZJTextField * firstPwd;
 /** 第二次密码  */
 @property (nonatomic,strong) ZJTextField * secondPwd;
 /** 确认修改密码  */
 @property (nonatomic,strong) UIButton * confirmBtn;
-/** 网络回话管理者  */
-@property (nonatomic,strong) AFHTTPSessionManager * manager;
-/** 网络请求传递的参数  */
-@property (nonatomic,strong) NSDictionary * paraDic;
-/** 获取验证码的按钮  */
-@property (nonatomic,strong) ZJVerificationCodeButton * getVerCodeBtn;
+
 @end
 
 @implementation ZJForgetPwdViewController
@@ -59,16 +51,6 @@
     [backView addSubview: _userPhoneNumber];
     i++;
     
-    ZJLoginLabel * veriLabel  = [ZJLoginLabel ZJLoginLabelwithText:@"验证码"];
-    self.verificationCode = [ZJTextField ZJTextFieldWithFrame:CGRectMake(0, i*(WEEK_SCROLLERVIEW_HEIGHT+10), SCREEN_WIDTH, WEEK_SCROLLERVIEW_HEIGHT) LeftView:veriLabel Text:@"请输入验证码" KeyBoardType:UIKeyboardTypeNumberPad];
-    //    添加获取验证的按钮
-    self.getVerCodeBtn = [[ZJVerificationCodeButton alloc] initWithFrame:CGRectMake(SCREEN_WIDTH*0.8-20, 0, SCREEN_WIDTH*0.2, WEEK_SCROLLERVIEW_HEIGHT)];
-    [_getVerCodeBtn addTarget:self action:@selector(getVerificationCode) forControlEvents:UIControlEventTouchUpInside];
-    [_verificationCode addSubview:_getVerCodeBtn];
-    [_verificationCode setLineViewLength:CGRectMake(SCREEN_WIDTH*0.05, _userPhoneNumber.frame.size.height, SCREEN_WIDTH*0.9, 0.5)];
-    [backView addSubview: _verificationCode];
-    i++;
-    
     ZJLoginLabel * firstPwdLabel = [ZJLoginLabel ZJLoginLabelwithText:@"密码"];
     self.firstPwd = [ZJTextField ZJTextFieldWithFrame:CGRectMake(0, i*(WEEK_SCROLLERVIEW_HEIGHT+10), SCREEN_WIDTH, WEEK_SCROLLERVIEW_HEIGHT) LeftView:firstPwdLabel Text:@"请输入新密码" KeyBoardType:UIKeyboardTypeDefault];
     _firstPwd.secureTextEntry = YES;
@@ -90,33 +72,15 @@
     [self.view addSubview:_confirmBtn];
     
 }
-//获取验证码
--(void)getVerificationCode {
-    if (_userPhoneNumber.text.length == 11 && [self checkPhoneNumber:_userPhoneNumber.text]) {
-        //        设置计时器开始计时
-        [self.getVerCodeBtn timeFailBeginFrom:150];
-        self.manager = [ZJFactory ZJFactoryAFNManage];
-        self.paraDic = @{
-                         @"phoneNumber":_userPhoneNumber.text
-                         };
-        [_manager POST:@"https://freegatty.ZJosa.xenoeye.org/ac/sendVerificationCode" parameters:_paraDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//            NSLog(@"%@",responseObject);
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//            NSLog(@"%@",error);
-        }];
-        return ;
-    }
-    [SVProgressHUD showErrorWithStatus:@"请检查手机号!"];
-}
-- (BOOL)checkPhoneNumber:(NSString *)phoneNumber
-{
+
+
+- (BOOL)checkPhoneNumber:(NSString *)phoneNumber{
     NSString *regex = @"^[1][3-8]\\d{9}$";
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     return [pred evaluateWithObject:phoneNumber];
 }
 //确认修改按钮
 -(void)confirmModify {
-    
     //    判断两次的密码是否相同
     if (_firstPwd.text.length <= 0 ||  _secondPwd.text.length <= 0 ) {
         [SVProgressHUD showErrorWithStatus:@"密码为空，请输入"];
@@ -126,32 +90,28 @@
         [SVProgressHUD showErrorWithStatus:@"两次密码不一致"];
         return;
     }
-    if (_verificationCode.text.length <= 0) {
-        [SVProgressHUD showErrorWithStatus:@"验证码为空!"];
-        return;
-    }
-    self.paraDic = @{
-                     @"password":_firstPwd.text,
-                     @"verificationCode":_verificationCode.text,
-                     };
-    [_manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forHTTPHeaderField:@"token"];
-    [_manager POST:@"https://freegatty.ZJosa.xenoeye.org/ac/changePassword" parameters:_paraDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        //        修改密码后怎么办？
-//        NSLog(@"%@",responseObject);
-        NSString * success = responseObject[@"success"];
-//        NSString * message = responseObject[@"message"];
-//        NSLog(@"%@",message);
-        if (success.intValue == 1) {
-            [SVProgressHUD showSuccessWithStatus:@"密码修改成功!"];
-        }
-        [self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        NSLog(@"%@",error);
-        NSString *string =[[NSString alloc]initWithData:error.userInfo[@"com.alamofire.serialization.response.error.data"] encoding:NSUTF8StringEncoding];
-
-        NSLog(@"%@",string);
-        [SVProgressHUD showErrorWithStatus:@"请检查网络，稍后重试!"];
-    }];
+//    self.paraDic = @{
+//                     @"password":_firstPwd.text,
+//                     @"verificationCode":_verificationCode.text,
+//                     };
+//    [_manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forHTTPHeaderField:@"token"];
+//    [_manager POST:@"https://freegatty.ZJosa.xenoeye.org/ac/changePassword" parameters:_paraDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        //        修改密码后怎么办？
+////        NSLog(@"%@",responseObject);
+//        NSString * success = responseObject[@"success"];
+////        NSString * message = responseObject[@"message"];
+////        NSLog(@"%@",message);
+//        if (success.intValue == 1) {
+//            [SVProgressHUD showSuccessWithStatus:@"密码修改成功!"];
+//        }
+//        [self.navigationController popViewControllerAnimated:YES];
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+////        NSLog(@"%@",error);
+//        NSString *string =[[NSString alloc]initWithData:error.userInfo[@"com.alamofire.serialization.response.error.data"] encoding:NSUTF8StringEncoding];
+//
+//        NSLog(@"%@",string);
+//        [SVProgressHUD showErrorWithStatus:@"请检查网络，稍后重试!"];
+//    }];
 }
 
 

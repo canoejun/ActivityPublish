@@ -22,25 +22,24 @@
 - (instancetype)initWithFrame:(CGRect)frame dataSource:(ZJBaseDataSource *)dataSource{
     self = [super initWithFrame:frame];
     if (self) {
-        [self __setUI:frame];
+//        [self __setUI:frame];
         self.dataSource = dataSource;
     }
     return self;
 }
 
 -(void)reloadData{
-    if(self.scrollView.superview == self){
-        [self.scrollView removeFromSuperview];
-    }
+    NSLog(@"%@",[NSThread currentThread]);
     CGFloat padding = 15.f;
-    CGFloat width = (self.frame.size.width - 2 * padding) / 3.0;
+    CGFloat width = (self.frame.size.width - 2 * padding) / 2.0;
     CGFloat height = self.frame.size.height;
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0+ 5, self.frame.size.width, height)];
-    
+    _scrollView.showsVerticalScrollIndicator = NO;
     [self addSubview:_scrollView];
 
     NSInteger count = self.dataSource.dataArray.count;
+    _scrollView.contentSize = CGSizeMake(width * count + (count - 1) * padding, height);
     for (int i = 0; i < (count > 3 ? 3 : count); i++) {
         ZJHomeActivityProjectModel *model = _dataSource.dataArray[i];
         ZJHomeActivityProjectCell *cell = [[ZJHomeActivityProjectCell alloc] initWithFrame:CGRectMake((padding + width) * i, 0, width, height) model:model];
@@ -52,9 +51,7 @@
     }
 }
 
-#pragma mark ---------------------privateMethod------------------------------
-
-
+#pragma mark mark ---------------------privateMethod------------------------------
 
 -(void)__setUI:(CGRect)frame{
     //        添加scrollview
@@ -68,7 +65,7 @@
     }
 }
 
-#pragma mark ---------------------lazyLoad------------------------------
+#pragma mark mark ---------------------lazyLoad------------------------------
 - (UIScrollView *)scrollView{
     if(!_scrollView){
         _scrollView = [[UIScrollView alloc] init];

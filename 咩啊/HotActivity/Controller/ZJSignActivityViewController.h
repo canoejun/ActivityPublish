@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZJSignActivityViewController : UIViewController
-
+@property (nonatomic, copy, readwrite) NSString *activityID;
+@property (nonatomic, strong, readwrite) UIButton *signBtn;
 @end
 
 NS_ASSUME_NONNULL_END

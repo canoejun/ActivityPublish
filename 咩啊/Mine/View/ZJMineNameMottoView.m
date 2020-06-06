@@ -109,8 +109,6 @@ static NSString * const reusedID = @"nameMottoCell";
 
 -(void)__setUI{
     [self addSubview:self.tableView];
-    
-//    NSLog(@"%@",self.dataSource.dataArray);
 }
 
 -(void)__loadData{

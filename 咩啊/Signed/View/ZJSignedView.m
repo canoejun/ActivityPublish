@@ -27,7 +27,7 @@ static NSString *reusedID = @"ZJSignedView";
         [self addSubview:self.imageView];
         [self addSubview:self.tableView];
         [self __setUI];
-        [self __updateData];
+        [self updateData];
     }
     return self;
 }
@@ -44,28 +44,31 @@ static NSString *reusedID = @"ZJSignedView";
     }
 }
 
--(void)__updateData{
-//    /apply/select
+-(void)updateData{
 //    更新SETUI和tableview
-    NSString *link = @"";
-//    [ZJSignedModel loadDataWithLink:link params:@{@"phoneNumber":[ZJUsersModel shareInstance].phoneNumber} success:^(id  _Nullable responseObject) {
-//        //        ZJSignedModel
-//        NSArray *dataArray = [ZJSignedModel loadDataWith:responseObject picLink:@""];
-//        [self.dataSource addDataArray:dataArray];
-//        [self __setUI];
-//        [self.tableView reloadData];
-//    } failure:^(id  _Nullable errror) {
-//        NSLog(@"%@",errror);
-//    } method:@"POST"];
+    NSString *link = @"http://47.92.93.38:443/apply/select";
+    [ZJSignedModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID} success:^(id  _Nullable responseObject) {
+        NSArray *dataArray = [ZJSignedModel loadDataWith:responseObject picLink:@""];
+        [self.dataSource addDataArray:dataArray];
+        [self __setUI];
+        [self.tableView reloadData];
+    } failure:^(id  _Nullable errror) {
+        NSLog(@"%@",errror);
+    } method:@"POST"];
 }
 
-#pragma ---------------------UITableViewDelegate------------------------------
+#pragma mark ---------------------UITableViewDelegate------------------------------
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    传递数据
+    ZJSignedCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if([self.delegate respondsToSelector:@selector(signViewCellDidClicked:detailLink:)]){
+        [self.delegate signViewCellDidClicked:@"ZJActivityDetailViewController" detailLink:cell.model.activityID];
+    }
 }
 
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 - (UIView *)imageView{
     if(!_imageView){
         self.imageView = [[UIView alloc] initWithFrame:self.frame];
@@ -101,7 +104,6 @@ static NSString *reusedID = @"ZJSignedView";
 
 -(ZJBaseDataSource *)dataSource{
     if(!_dataSource){
-        NSLog(@"加载报名数据");
         self.dataSource = [[ZJBaseDataSource alloc] initWithIdentity:reusedID configBlock:^(ZJSignedCell * _Nonnull cell, id  _Nonnull model, NSIndexPath * _Nonnull indexPath) {
             cell.model = model;
         }];

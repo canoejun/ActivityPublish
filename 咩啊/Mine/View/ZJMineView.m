@@ -11,11 +11,14 @@
 #import "ZJMineHeadView.h"
 #import "ZJLoginViewController.h"
 #import "ZJBaseNavigationController.h"
+#import "ZJUsersModel.h"
+#import "ZJCache.h"
 
 @interface ZJMineView ()<UITableViewDelegate,ZJMineHeadViewDelegate>
 @property (nonatomic, strong, readwrite) ZJBaseDataSource *dataSource;
 @property (nonatomic, strong, readwrite) ZJMineHeadView *headView;
 @property (nonatomic, strong, readwrite) NSMutableArray *dataArray;
+//@property (nonatomic, strong, readwrite) UITableView *tableView;
 @end
 
 static NSString *const reusedID = @"ZJMineView";
@@ -28,12 +31,16 @@ static NSString *const reusedID = @"ZJMineView";
     }
     return self;
 }
+-(void)reload{
+//    [self.tableView reloadData];
+    [self.headView updateNameMotto];
+}
 
 -(void)__setUIWithFrame:(CGRect)frame{
-    
     //    添加tableview
     UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     tableView.dataSource = self.dataSource;
+//    self.tableView = tableView;
     tableView.delegate = self;
     [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reusedID];
     [tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
@@ -44,10 +51,9 @@ static NSString *const reusedID = @"ZJMineView";
     tableView.tableHeaderView.frame = self.headView.frame;
     
     [self addSubview:tableView];
-    
 }
 
-#pragma ---------------------delegate------------------------------
+#pragma mark ---------------------delegate------------------------------
 
 - (void)ZJMineHeadViewModuleViewDidClicked:(NSString *)nextControllerName{
     [self __pushNextController:nextControllerName];
@@ -86,7 +92,7 @@ static NSString *const reusedID = @"ZJMineView";
 }
 
 
-#pragma ---------------------privateMethod------------------------------
+#pragma mark ---------------------privateMethod------------------------------
 -(void)__pushNextController:(NSString *)nextControllerName{
     if([self.delegate respondsToSelector:@selector(pushToNextController:)]){
         [self.delegate pushToNextController:nextControllerName];
@@ -98,11 +104,18 @@ static NSString *const reusedID = @"ZJMineView";
     }
 }
 
-
 //显示清楚缓存成功
 -(void)__clearCache{
-    
     UIAlertController *alertVc = [self __buildAlertVcWithTitle:@"清除缓存" message:@"即将清除缓存的图片和数据！" okIsNeed:YES cancelIsNeed:YES okHandler:^(UIAlertAction *action) {
+        
+        NSFileManager *manager = [NSFileManager defaultManager];
+        NSString *path = [NSString stringWithFormat:@"%@/Caches",NSHomeDirectory()];
+        NSError *error;
+        [manager removeItemAtPath:path error:&error];
+        [manager removeItemAtPath:NSTemporaryDirectory() error:&error];
+        
+        ZJCache *cache = [ZJCache shareInstance];
+        [cache clearAll];
         
     } cancelHander:nil];
     
@@ -120,10 +133,14 @@ static NSString *const reusedID = @"ZJMineView";
 -(void)__logOut{
     UIAlertController *alertVc = [self __buildAlertVcWithTitle:@"退出登录" message:@"即将退出当前登录用户！" okIsNeed:YES  cancelIsNeed:YES okHandler:^(UIAlertAction *action) {
         
+        [ZJUsersModel logOut];
+        [[ZJCache shareInstance] clearAll];
+        
         ZJLoginViewController * loginVc = [[ZJLoginViewController alloc] init];
         ZJBaseNavigationController * nav = [[ZJBaseNavigationController alloc] initWithRootViewController:loginVc];
-        
         [[UIApplication sharedApplication].keyWindow setRootViewController:nav];
+        return;
+        
     } cancelHander:^(UIAlertAction *action) {
         
     }];
@@ -164,7 +181,7 @@ static NSString *const reusedID = @"ZJMineView";
     return alertVc;
 }
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 -(ZJBaseDataSource *)dataSource{
     if(!_dataSource){
         self.dataSource = [[ZJBaseDataSource alloc] initWithIdentity:reusedID configBlock:^(UITableViewCell *  _Nonnull cell, NSString * _Nonnull model, NSIndexPath * _Nonnull indexPath) {

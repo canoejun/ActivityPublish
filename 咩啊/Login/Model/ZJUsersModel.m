@@ -7,6 +7,8 @@
 //
 
 #import "ZJUsersModel.h"
+//#import "ZJBaseDataModel.h"
+#import "ZJFactory.h"
 
 #define kEncodedObjectPath_User ([[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"user"])
 
@@ -20,7 +22,7 @@
     NSFileManager *manager = [NSFileManager defaultManager];
     return [manager fileExistsAtPath:kEncodedObjectPath_User];
 }
-+(BOOL)loginOut{
++(BOOL)logOut{
     NSFileManager *manager = [NSFileManager defaultManager];
     NSError *error;
     return [manager removeItemAtPath:kEncodedObjectPath_User error:&error];
@@ -45,16 +47,38 @@
     return model;
 }
 
++(instancetype)shareInstanceWithDict:(NSDictionary *)dic{
+    ZJUsersModel *model = [ZJUsersModel shareInstance];
+    model.userID = dic[@"user_id"];
+    model.loginInfo = dic[@"info"];
+    return model;
+}
+
+
++(void)userActWithLink:(NSString *)link params:(id _Nullable)params success:(loginSuccessBlock)success failure:(loginFailureBlock)failure{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    NSLog(@"%@ %@",link,params);
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    [manager POST:link parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSLog(@"%@",responseObject);
+        success(responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
+
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [coder encodeObject:self.phoneNumber forKey:@"phoneNumber"];
-    [coder encodeObject:self.password forKey:@"password"];
+    [coder encodeObject:self.userID forKey:@"userid"];
+    [coder encodeObject:self.name forKey:@"name"];
+    [coder encodeObject:self.motto forKey:@"motto"];
 }
 -(instancetype)initWithCoder:(NSCoder *)coder{
     if(self = [super init]){
-        self.phoneNumber = [coder decodeObjectForKey:@"phoneNumber"];
-        self.password = [coder decodeObjectForKey:@"password"];
+        self.userID = [coder decodeObjectForKey:@"userid"];
+        self.name = [coder decodeObjectForKey:@"name"];
+        self.motto = [coder decodeObjectForKey:@"motto"];
     }
     return self;
 }

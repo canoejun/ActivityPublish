@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZJBaseDetailViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJSignedController : UIViewController
+@interface ZJSignedController : ZJBaseDetailViewController
 
 @end
 

@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(ZJBaseDataModel *)loadDetailDataWithLink:(NSString *)link success:(successBlock)success failure:(failureBlock)failure;
 
 -(instancetype)initWithDic:(NSDictionary *)dic picLink:(NSString *)link;
+-(instancetype)initWithDic:(NSDictionary *)dic;
 @end
 
 NS_ASSUME_NONNULL_END

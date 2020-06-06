@@ -24,7 +24,7 @@
 
 
 
-#pragma ---------------------privateMethod------------------------------
+#pragma mark ---------------------privateMethod------------------------------
 -(void)__setUI{
     [self addSubview:self.textLabel];
     [self addSubview:self.imgView];
@@ -34,7 +34,7 @@
     
 }
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 -(UILabel *)textLabel{
     if(!_textLabel){
         _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60, self.frame.size.height)];

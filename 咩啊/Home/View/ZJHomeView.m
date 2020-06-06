@@ -37,7 +37,7 @@ static NSString *const newsReusedID = @"activityNews";
 }
 
 
-#pragma ---------------------privateMethod------------------------------
+#pragma mark ---------------------privateMethod------------------------------
 
 -(void)__pushNextController:(NSString *)nextController dataSource:(ZJBaseDataSource *)dataSource{
     if([self.delegate respondsToSelector:@selector(ZJHomeMoreDetailDidClicked: dataSource:)]){
@@ -53,33 +53,30 @@ static NSString *const newsReusedID = @"activityNews";
 
 
 -(void)__setUI{
-    
     //    添加活动新闻tableview
     [self addSubview:self.activityNews];
-    
     //        添加搜索框
-//    [self addSubview:self.searchView];
+    //    [self addSubview:self.searchView];
     
-    NSString *link = @"http://47.92.93.38:8080/activity/select/new";
-//    加载主页新闻数据
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [ZJHomeUniversalModel loadDataWithLink:link success:^(id  _Nullable responseObject) {
-            NSLog(@"活动新闻---%@ %@",[responseObject class],responseObject);
-            NSArray *dataArray = [ZJHomeUniversalModel loadDataWith:responseObject picLink:link];
-            [self.activityNewsDataSource addDataArray:dataArray];
+    NSString *link = @"http://47.92.93.38:443/activity/select/new";
+    //    加载主页新闻数据
+    [ZJHomeUniversalModel loadDataWithLink:link success:^(id  _Nullable responseObject) {
+//        NSLog(@"活动新闻---%@ %@ %d",[NSThread currentThread],[responseObject class],responseObject == nil);
+        NSArray *dataArray = [ZJHomeUniversalModel loadDataWith:responseObject picLink:link];
+        [self.activityNewsDataSource addDataArray:dataArray];
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self.activityNews reloadData];
-        } failure:^(id  _Nullable errror) {
-            NSLog(@"%@",errror);
-        }];
-    });
-
+        });
+    } failure:^(id  _Nullable errror) {
+        NSLog(@"%@",errror);
+    }];
 }
 
-#pragma ---------------------delegate------------------------------
+#pragma mark ---------------------delegate------------------------------
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZJHomeActivityNewsCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self __pushNextController:@"ZJActivityDetailViewController" detailLink:[NSString stringWithFormat:@"/activity/select/detail/%@",cell.model.activityID]];
+    [self __pushNextController:@"ZJActivityDetailViewController" detailLink:cell.model.activityID];
 }
 
 -(void)ZJHomeHeaderViewMoreDetailDidClicked:(NSString *)nextControllerName dataSource:(ZJBaseDataSource *)dataSource{
@@ -96,9 +93,7 @@ static NSString *const newsReusedID = @"activityNews";
 }
 
 
-#pragma mark ---------------------lazyLoad------------------------------
-
-
+#pragma mark mark ---------------------lazyLoad------------------------------
 -(UITableView *)activityNews{
     if(!_activityNews){
         ZJActivityNewsHeaderView *headerView = [[ZJActivityNewsHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 400)];
@@ -109,14 +104,14 @@ static NSString *const newsReusedID = @"activityNews";
         _activityNews.delegate = self;
         _activityNews.dataSource = self.activityNewsDataSource;
         _activityNews.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-
+        
         _activityNews.tableHeaderView = headerView;
         _activityNews.tableHeaderView.frame = headerView.frame;
         _activityNews.sectionHeaderHeight = headerView.frame.size.height;
         _activityNews.showsHorizontalScrollIndicator = NO;
         _activityNews.showsVerticalScrollIndicator = NO;
         _activityNews.separatorInset = UIEdgeInsetsMake(7, 0, 7, 0);
-
+        
         //        注册cell
         [_activityNews registerClass:[ZJHomeActivityNewsCell class] forCellReuseIdentifier:newsReusedID];
     }

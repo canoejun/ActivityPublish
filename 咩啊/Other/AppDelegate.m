@@ -10,6 +10,7 @@
 #import "ZJTabBarController.h"
 #import "ZJBaseNavigationController.h"
 #import "ZJLoginViewController.h"
+#import "ZJUsersModel.h"
 
 @interface AppDelegate ()
 
@@ -23,17 +24,23 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    ZJLoginViewController * loginVc = [[ZJLoginViewController alloc] init];
-    ZJBaseNavigationController * nav = [[ZJBaseNavigationController alloc] initWithRootViewController:loginVc];
+    ZJLoginViewController *loginVc = [[ZJLoginViewController alloc] init];
+    ZJBaseNavigationController *nav = [[ZJBaseNavigationController alloc] init];
+    ZJTabBarController *tabVc = [[ZJTabBarController alloc] init];
     
-//    ZJBaseNavigationController *nav = [[ZJBaseNavigationController alloc] initWithRootViewController:[[ZJTabBarController alloc] init]];
+    if([ZJUsersModel isLogin]){//登录了
+        nav = [[ZJBaseNavigationController alloc] initWithRootViewController:tabVc];
+    }else{
+         nav = [[ZJBaseNavigationController alloc] initWithRootViewController:loginVc];
+    }
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
 
-#pragma mark - UISceneSession lifecycle
+#pragma mark mark - UISceneSession lifecycle
 
 
 - (UISceneConfiguration *)application:(UIApplication *)application configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession options:(UISceneConnectionOptions *)options  API_AVAILABLE(ios(13.0)){

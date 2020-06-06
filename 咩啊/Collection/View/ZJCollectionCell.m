@@ -10,6 +10,7 @@
 #import "Masonry/Masonry.h"
 #import "ZJCollectionModel.h"
 #import "ZJMineModuleView.h"
+#import "SDWebImage/SDWebImage.h"
 
 @interface ZJCollectionCell ()
 @property (nonatomic, strong, readwrite) UIView *moduleView;
@@ -31,8 +32,8 @@
 -(void)setModel:(ZJCollectionModel *)model{
     //    设置图片和文字
     _model = model;
-    _imgView.image = [UIImage imageNamed:model.imgUrl];
-    _contentLable.text = [NSString stringWithFormat:@"collection :%@",model.content];
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:model.imgUrl] placeholderImage:[UIImage imageNamed:@"logo"]];
+    _contentLable.text = model.content;
 }
 
 -(void)showSelectedBtn{
@@ -47,14 +48,13 @@
 }
 
 
-#pragma ---------------------privateMethod------------------------------
+#pragma mark ---------------------privateMethod------------------------------
 -(void)__setUI{
     
     [self.contentView addSubview:self.selectBtn];
     [self.contentView addSubview:self.moduleView];
     [self.moduleView addSubview:self.imgView];
     [self.moduleView addSubview:self.contentLable];
-//    [self.contentView addSubview:self.testLabel];
     
     
     [self.selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -75,18 +75,20 @@
     }];
     
     [self.contentLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.imgView.mas_bottom).offset(5);
         make.bottom.left.right.equalTo(self.moduleView);
-        make.height.equalTo(self.moduleView).multipliedBy(1- ratio);
     }];
     
-    
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    self.imgView.layer.cornerRadius = 12;
+    self.imgView.layer.masksToBounds = YES;
     
 }
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 -(UIView *)moduleView{
     if(!_moduleView){
-//        _moduleView = [[ZJMineModuleView alloc] initWithFrame:CGRectMake(0, 0, 40, 40) imageName:@"" moduleName:@"0" state:0 ratio:11.0/13.0];
         _moduleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     }
     return _moduleView;
@@ -108,6 +110,7 @@
 -(UIImageView *)imgView{
     if(!_imgView){
         _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 4, 4)];
+//        _imgView.layer.cornerRadius = 10;
     }
     return _imgView;
 }
@@ -117,6 +120,7 @@
         _contentLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 4, 4)];
         _contentLable.font = [UIFont systemFontOfSize:15];
         _contentLable.textAlignment = NSTextAlignmentCenter;
+        _contentLable.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1.0];
     }
     return _contentLable;
 }

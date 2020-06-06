@@ -43,8 +43,6 @@
     
     _remindLabel.frame = CGRectMake(15, 0, 100, self.frame.size.height);
     _contentLabel.frame = CGRectMake(self.frame.size.width - 50, 0,  100, self.frame.size.height);
-//    _contentLabel.center = CGPointMake(_contentLabel.center.x, self.center.y);
-//    _remindLabel.center = CGPointMake(_remindLabel.center.x, self.center.y);
 }
 
 

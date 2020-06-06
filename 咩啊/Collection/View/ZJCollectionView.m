@@ -16,6 +16,7 @@
 @property (nonatomic, strong, readwrite) UIView *imageView;
 @property (nonatomic, strong, readwrite) UICollectionView *collectionView;
 @property (nonatomic, strong, readwrite) ZJBaseDataSource *dataSource;
+
 @property (nonatomic, assign, readwrite) BOOL showSelect;
 @property (nonatomic, strong, readwrite) UIButton *delBtn;
 @property (nonatomic, strong, readwrite) UIButton *cancelBtn;
@@ -35,29 +36,26 @@ static NSString * const reusedID = @"ZJCollectionView";
         
         [self addSubview:self.delBtn];
         [self addSubview:self.cancelBtn];
+        [self addObserver:self forKeyPath:@"showSelect" options:NSKeyValueObservingOptionNew context:nil];
         
         [self __setUI];
+        [self updateData];
     }
     return self;
 }
-
--(void)__setUI{
-    
-    NSArray *dataArray = [ZJCollectionModel loadCollectionData];
-    if(!dataArray || dataArray.count <= 0){
-        self.collectionView.hidden = YES;
-        self.imageView.hidden = NO;
-    }else{
-        self.collectionView.hidden = NO;
-        self.imageView.hidden = YES;
+-(void)updateData{
+    NSString *link = @"http://47.92.93.38:443/collect/select";
+    [ZJCollectionModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID} success:^(id  _Nullable responseObject) {
+//        NSLog(@"%@ %@",[responseObject class],responseObject);
+        NSArray *dataArray = [ZJCollectionModel loadDataWith:responseObject picLink:@""];
         [self.dataSource addDataArray:dataArray];
-    }
-    self.delBtn.hidden = YES;
-    self.cancelBtn.hidden = YES;
-    
-    [self addObserver:self forKeyPath:@"showSelect" options:NSKeyValueObservingOptionNew context:nil];
-    
+        [self __setUI];
+        [self.collectionView reloadData];
+    } failure:^(id  _Nullable errror) {
+        NSLog(@"%@",errror);
+    } method:@"POST"];
 }
+
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     
@@ -82,7 +80,7 @@ static NSString * const reusedID = @"ZJCollectionView";
 }
 
 
-#pragma ---------------------delegate------------------------------
+#pragma mark ---------------------delegate------------------------------
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return CGSizeMake(self.collectionView.frame.size.width * 0.5, 140);
 }
@@ -106,11 +104,16 @@ static NSString * const reusedID = @"ZJCollectionView";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    if(!self.showSelect) return;
+    ZJCollectionCell *cell = (ZJCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
+//    if(!self.showSelect) return;
+    if(!self.showSelect){//没有打开选中的
+//        点击进行cell，进行界面的切换
+        if([self.delegate respondsToSelector:@selector(collectionViewCellDidClickedNextController:detailLink:)]){
+            [self.delegate collectionViewCellDidClickedNextController:@"ZJActivityDetailViewController" detailLink:cell.model.activityID];
+        }
+    }
     
 //    打开了选中按钮才能进行选中
-    ZJCollectionCell *cell = (ZJCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    
     cell.selectBtn.selected = !cell.selectBtn.selected;
     
     if(cell.selectBtn.selected && ![self.delArray containsObject:cell]){
@@ -122,33 +125,44 @@ static NSString * const reusedID = @"ZJCollectionView";
 }
 
 
-#pragma ---------------------privateMethod------------------------------
+#pragma mark mark ---------------------privateMethod------------------------------
+-(void)__setUI{
+    if(!self.dataSource.dataArray || self.dataSource.dataArray.count <= 0){
+        self.collectionView.hidden = YES;
+        self.imageView.hidden = NO;
+    }else{
+        self.collectionView.hidden = NO;
+        self.imageView.hidden = YES;
+    }
+    self.delBtn.hidden = YES;
+    self.cancelBtn.hidden = YES;
+}
+
+
 
 -(void)__showSelectBtnLongPressGesture:(UILongPressGestureRecognizer *)longPress{
-    
     if(longPress.state == UIGestureRecognizerStateBegan){
         self.showSelect = YES;
     }
 }
 
 -(void)__deleteSelectedItem{
-     NSString *link = @"";
+     NSString *link = @"http://47.92.93.38:443/collect/delete";
     for (ZJCollectionCell *cell in self.delArray) {
          cell.selectBtn.selected = NO;
         [self.dataSource removeData:cell.model];
-        
-        NSLog(@"删除收藏的数据");
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            [ZJCollectionModel removeDataWithLink:link params:@{@"phoneNumber":[ZJUsersModel shareInstance].phoneNumber,@"activity_id":cell.model.activityID} success:^(id  _Nullable responseObject) {
-//                NSLog(@"%@删除了，%@",cell.model.content,responseObject);
-//            } failure:^(id  _Nullable errror) {
-//                NSLog(@"%@",errror);
-//            }];
-//        }) ;
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            [ZJCollectionModel removeDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID,@"activity_id":cell.model.activityID} success:^(id  _Nullable responseObject) {
+                [self __setUI];
+                [self.collectionView reloadData];
+                NSLog(@"%@删除了，%@",cell.model.content,responseObject);
+            } failure:^(id  _Nullable errror) {
+                NSLog(@"%@",errror);
+            }];
+        }) ;
     }
     [_collectionView reloadData];
     
-    NSLog(@"删除收藏");
     
 //    for (ZJCollectionCell *cell in self.delArray) {
 ////        NSIndexPath *indexPath = [_collectionView indexPathForCell:cell];
@@ -160,8 +174,6 @@ static NSString * const reusedID = @"ZJCollectionView";
 //    上传删除。  /collect/delete
    
 
-    
-    
 }
 -(void)__cancelSelectedItem{
     self.showSelect = NO;
@@ -172,7 +184,7 @@ static NSString * const reusedID = @"ZJCollectionView";
 
 
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 - (UIView *)imageView{
     if(!_imageView){
         self.imageView = [[UIView alloc] initWithFrame:self.frame];
@@ -213,7 +225,6 @@ static NSString * const reusedID = @"ZJCollectionView";
 
 -(ZJBaseDataSource *)dataSource{
     if(!_dataSource){
-        NSLog(@"加载收藏数据");
         self.dataSource = [[ZJBaseDataSource alloc] initWithIdentity:reusedID configBlock:^(ZJCollectionCell * _Nonnull cell, id  _Nonnull model, NSIndexPath * _Nonnull indexPath) {
             cell.model = model;
         }];

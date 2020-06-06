@@ -12,7 +12,7 @@
 
 @protocol ActivityDetailViewDelegate <NSObject>
 
--(void)signBtnDidClickedWithModel:(ZJActivityDetailModel *_Nullable)model;
+-(void)signBtnDidClickedWithModel:(ZJActivityDetailModel *_Nullable)model signBtn:(UIButton * _Nonnull)signBtn;
 
 @end
 

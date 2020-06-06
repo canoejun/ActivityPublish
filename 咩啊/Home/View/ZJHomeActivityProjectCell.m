@@ -8,6 +8,7 @@
 
 #import "ZJHomeActivityProjectCell.h"
 #import "ZJHomeActivityProjectModel.h"
+#import "SDWebImage/SDWebImage.h"
 
 @implementation ZJHomeActivityProjectCell
 -(instancetype)initWithFrame:(CGRect)frame
@@ -21,7 +22,9 @@
         [self addSubview:view];
         
         self.userInteractionEnabled = YES;
-        self.image = [UIImage imageNamed:model.ClassImageUrl];
+//        self.image = [UIImage imageNamed:model.ClassImageUrl];
+        [self sd_setImageWithURL:[NSURL URLWithString:model.ClassImageUrl] placeholderImage:[UIImage imageNamed:@"logo"]];
+        
         CGFloat padding = 10;
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding, 0, frame.size.width - 2.0*padding, frame.size.height)];
         titleLabel.numberOfLines = 0;

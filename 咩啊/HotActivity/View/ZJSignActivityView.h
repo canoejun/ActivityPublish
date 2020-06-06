@@ -9,9 +9,17 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@protocol ZJSignActivityViewDelegate <NSObject>
+
+-(void)popViewController;
+
+@end
+
 
 @interface ZJSignActivityView : UIView
-
+@property (nonatomic, weak, readwrite) id<ZJSignActivityViewDelegate> delegate;
+@property (nonatomic, copy, readwrite) NSString *currentActivityID;
+@property (nonatomic, strong, readwrite) UIButton *signBtn;
 @end
 
 NS_ASSUME_NONNULL_END

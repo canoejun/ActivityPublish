@@ -34,6 +34,7 @@
 static NSString *const hotReusedID = @"hotActivity";
 
 @implementation ZJActivityNewsHeaderView
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self __setUIWithFrame:frame];
@@ -41,7 +42,7 @@ static NSString *const hotReusedID = @"hotActivity";
     return self;
 }
 
-#pragma---------------------privateMethod------------------------------
+#pragma mark---------------------privateMethod------------------------------
 
 - (void)__setUIWithFrame:(CGRect)frame {
     //    活动专题
@@ -61,42 +62,35 @@ static NSString *const hotReusedID = @"hotActivity";
 
 -(void)__loadActivityData{
     
-    NSString *link = @"http://47.92.93.38:8080/activity/select/hot";
+    NSString *link = @"http://47.92.93.38:443/activity/select/hot";
     //    加载最热活动
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [ZJHomeUniversalModel loadDataWithLink:link success:^(id  _Nullable responseObject) {
-            NSArray *dataArray = [NSArray array];
-            if([responseObject isKindOfClass:[NSArray class]]){
-                dataArray = responseObject;
-            }//可能还存在其他的字典类型
-            
-            NSArray *array =[ZJHomeUniversalModel loadDataWith:dataArray picLink:link];
-            NSMutableArray *lessArray = [NSMutableArray array];
-            while (lessArray.count < 3)
-                [lessArray addObject:array[lessArray.count]];
-            [self.hotActivityDataSource addDataArray:lessArray];
+    [ZJHomeUniversalModel loadDataWithLink:link success:^(id  _Nullable responseObject) {
+//        NSLog(@"最热活动%@ %@ %d",[NSThread currentThread],[responseObject class],responseObject == nil);
+        NSArray *array =[ZJHomeUniversalModel loadDataWith:responseObject picLink:link];
+        NSMutableArray *lessArray = [NSMutableArray array];
+        while (lessArray.count < 3)
+            [lessArray addObject:array[lessArray.count]];
+        [self.hotActivityDataSource addDataArray:lessArray];
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self.hotActivity reloadData];
-        } failure:^(id  _Nullable errror) {
-            NSLog(@"%@",errror);
-        }];
-    });
+        });
+    } failure:^(id  _Nullable errror) {
+        NSLog(@"%@",errror);
+    }];
     
     //    加载活动专题的数据
-    
-    link = @"http://47.92.93.38:8080/class/select";
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [ZJHomeActivityProjectModel loadDataWithLink:link success:^(id  _Nullable responseObject) {
-            //            NSLog(@"专题：%@ %@",[responseObject class],responseObject);
-            NSArray *dataArray = [ZJHomeActivityProjectModel loadDataWith:responseObject picLink:link];
-            [self.activityProjectDataSource addDataArray:dataArray];
+    link = @"http://47.92.93.38:443/class/select";
+    [ZJHomeActivityProjectModel loadDataWithLink:link success:^(id  _Nullable responseObject) {
+//        NSLog(@"专题：%@ %@ %d",[NSThread currentThread],[responseObject class],responseObject == nil);
+        NSArray *dataArray = [ZJHomeActivityProjectModel loadDataWith:responseObject picLink:link];
+        [self.activityProjectDataSource addDataArray:dataArray];
+        NSLog(@"%@",[NSThread currentThread]);
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self.projectView reloadData];
-            //            self.activityProject
-        } failure:^(id  _Nullable errror) {
-            NSLog(@"%@",errror);
-        }];
-    });
-    
-    
+        });
+    } failure:^(id  _Nullable errror) {
+        NSLog(@"%@",errror);
+    }];
 }
 
 
@@ -117,15 +111,14 @@ static NSString *const hotReusedID = @"hotActivity";
     NSString *name = btn.titleLabel.text;
     NSString *link = @"";
     if([name isEqualToString:@"最新"]){
-        link = @"http://47.92.93.38:8080/activity/select/new";
+        link = @"http://47.92.93.38:443/activity/select/new";
     }else if ([name isEqualToString:@"校内"]){
-        link = @"http://47.92.93.38:8080/activity/select/official";
+        link = @"http://47.92.93.38:443/activity/select/official";
     }else if ([name isEqualToString:@"社团"]){
-        link = @"http://47.92.93.38:8080/activity/select/club";
+        link = @"http://47.92.93.38:443/activity/select/club";
     }
-
-    [self __typeBtnClicked:link];
     
+    [self __typeBtnClicked:link];
 }
 
 -(void)__typeBtnClicked:(NSString *)typeName{
@@ -140,7 +133,7 @@ static NSString *const hotReusedID = @"hotActivity";
         }];
     });
     
-//    如果新的链接数据没有加载出来，先加载旧的数据
+    //    如果新的链接数据没有加载出来，先加载旧的数据
     ZJCache *cache = [ZJCache shareInstance];
     id responseObject = [cache objectForKey:typeName];
     NSArray *dataArray = [ZJHomeUniversalModel loadDataWith:responseObject picLink:@""];
@@ -172,21 +165,20 @@ static NSString *const hotReusedID = @"hotActivity";
 
 
 
-#pragma---------------------delegate------------------------------
+#pragma mark---------------------delegate------------------------------
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     ZJHomeHotActivityCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    转到最热活动的详情界面
-    [self __pushNextController:@"ZJActivityDetailViewController" detailLink:[NSString stringWithFormat:@"/activity/select/detail/%@",cell.model.activityID]];
+    //    转到最热活动的详情界面
+    [self __pushNextController:@"ZJActivityDetailViewController" detailLink:cell.model.activityID];
 }
 -(void)activityProjectViewCellDidClicked:(UITapGestureRecognizer *)tapGesture{
     ZJHomeActivityProjectCell *cell = (ZJHomeActivityProjectCell *)tapGesture.view;
-    NSLog(@"%@",cell);
     [self __pushNextController:@"ZJActivityProjectDetailViewController" detailLink:[NSString stringWithFormat:@"/class/select/detail/%@",cell.model.ClassID]];
 }
 
-#pragma---------------------lazyLoad------------------------------
+#pragma mark---------------------lazyLoad------------------------------
 
 - (UIView *)activityProject {
     if (!_activityProject) {
@@ -310,9 +302,7 @@ static NSString *const hotReusedID = @"hotActivity";
 
 - (ZJBaseDataSource *)activityProjectDataSource {
     if (!_activityProjectDataSource) {
-        //        NSArray *array = [ZJHomeActivityProjectModel loadData];
         _activityProjectDataSource = [[ZJBaseDataSource alloc] init];
-        //        [_activityProjectDataSource addDataArray:array];
     }
     return _activityProjectDataSource;
 }

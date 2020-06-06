@@ -11,7 +11,7 @@
 #import "ZJMineNameMottoViewController.h"
 
 @interface ZJMineViewController ()<ZJMineViewDelegate>
-
+@property (nonatomic, strong, readwrite) ZJMineView *mineView;
 @end
 
 @implementation ZJMineViewController
@@ -20,14 +20,15 @@
     [super viewDidLoad];
     
     [self.view addSubview:({
-        ZJMineView *view = [[ZJMineView alloc] initWithFrame:self.view.bounds];
-        view.delegate = self;
-        view;
+        self.mineView = [[ZJMineView alloc] initWithFrame:self.view.bounds];
+        _mineView.delegate = self;
+        _mineView;
     })];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.mineView reload];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -35,7 +36,7 @@
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
-#pragma ---------------------ZJMineViewDelegate------------------------------
+#pragma mark ---------------------ZJMineViewDelegate------------------------------
 
 -(void)pushToNextController:(NSString *)nextControllerName{
     Class ControllerClass = NSClassFromString(nextControllerName);

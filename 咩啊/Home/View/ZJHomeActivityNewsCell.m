@@ -55,17 +55,17 @@
         make.top.equalTo(self.contentView).offset(10);
         make.left.equalTo(self.contentView);
         make.height.equalTo(@40);
-        make.width.equalTo(@200);
+        make.width.equalTo(@190);
     }];
     
     [self.littleImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.titleLabel);
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(5);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
         make.width.height.equalTo(@35);
     }];
     
     [self.hostUnitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.littleImage);
+        make.top.equalTo(self.littleImage).offset(-5);
         make.left.equalTo(self.littleImage.mas_right).offset(10);
         make.width.equalTo(@160);
         make.height.equalTo(@15);
@@ -81,12 +81,18 @@
         make.top.equalTo(self.titleLabel);
         make.right.equalTo(self.contentView);
         make.bottom.equalTo(self.littleImage);
-        make.width.equalTo(self.activityImage.mas_height).multipliedBy(400.0/191.0);
+        make.width.equalTo(self.activityImage.mas_height).multipliedBy(350.0/191.0);
     }];
+    
+    [self layoutIfNeeded];
+    [self setNeedsLayout];
+    
+    self.activityImage.layer.cornerRadius = 7;
+    self.activityImage.layer.masksToBounds = YES;
     
 }
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 -(UILabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];

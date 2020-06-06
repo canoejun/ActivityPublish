@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZJBaseDataModel.h"
+
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJActivityDetailModel : ZJBaseDataModel
+@interface ZJActivityDetailModel : NSObject
 
 
 @property (nonatomic, copy, readwrite) NSString *ActivityID;
@@ -53,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 //"PublishTime": "20:53"
 
 //+(instancetype)loadDataWithLink:(NSString *)url;
+
 -(instancetype)initWithDic:(NSDictionary *)dic;
 
 @end

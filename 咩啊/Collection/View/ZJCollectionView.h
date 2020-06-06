@@ -8,10 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class ZJCollectionCell;
+
+@protocol ZJCollectionViewDelegate <NSObject>
+
+-(void)collectionViewCellDidClickedNextController:(NSString *_Nullable)nextController detailLink:(NSString *_Nullable)url;
+
+@end
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZJCollectionView : UIView
-
+@property (nonatomic, weak, readwrite) id<ZJCollectionViewDelegate> delegate;
+-(void)updateData;
 @end
 
 NS_ASSUME_NONNULL_END

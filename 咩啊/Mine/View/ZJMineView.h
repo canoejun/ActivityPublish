@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZJMineView : UIView
 @property (nonatomic, weak, readwrite) id<ZJMineViewDelegate> delegate;
-
+-(void)reload;
 @end
 
 NS_ASSUME_NONNULL_END

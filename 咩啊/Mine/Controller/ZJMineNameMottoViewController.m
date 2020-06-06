@@ -8,6 +8,7 @@
 
 #import "ZJMineNameMottoViewController.h"
 #import "ZJMineNameMottoView.h"
+#import "ZJMineHeadViewBannerModel.h"
 
 @interface ZJMineNameMottoViewController ()<ZJMineNameMottoDelegate>
 
@@ -30,6 +31,9 @@
     [self presentViewController:alertVc animated:YES completion:nil];
 }
 -(void)updateNameMottoModel:(id)model{
-    NSLog(@"%@",model);
+//    上传数据，更新界面
+    [ZJMineHeadViewBannerModel upDateNameMottoDataWithModel:(ZJMineHeadViewBannerModel *)model];
+    [self.navigationController popoverPresentationController];
+    [self.navigationController popoverPresentationController];
 }
 @end

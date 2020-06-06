@@ -20,18 +20,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"";
-//    self.view.backgroundColor = [UIColor redColor];
-    
     [self __setNavigationBar];
-    
-    
-    [self.view addSubview:({
-        ZJHomeView *view = [[ZJHomeView alloc] initWithFrame:self.view.bounds];
-        view.delegate = self;
-        view;
-    })];
-    
-    
+    ZJHomeView *view = [[ZJHomeView alloc] initWithFrame:self.view.bounds];
+    view.delegate = self;
+    self.view = view;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -43,8 +35,7 @@
     [self.navigationController.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
-
-#pragma ----------------------ZJHomeViewDelegate-----------------------------
+#pragma mark ----------------------ZJHomeViewDelegate-----------------------------
 - (void)ZJHomeMoreDetailDidClicked:(NSString *)nextControllerName dataSource:(ZJBaseDataSource * _Nullable)dataSource{
     Class cls = NSClassFromString(nextControllerName);
     ZJBaseViewController *vc = [[cls alloc] init];
@@ -59,11 +50,10 @@
     [self.navigationController.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma ---------------------privateMethod------------------------------
+#pragma mark ---------------------privateMethod------------------------------
 -(void)__setNavigationBar{
     UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
     leftLabel.text = @"咩啊";
-    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftLabel];
 }
 

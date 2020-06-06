@@ -64,7 +64,7 @@
 }
 
 
-#pragma ---------------------lazyLoad------------------------------
+#pragma mark ---------------------lazyLoad------------------------------
 - (UIImageView *)imgView{
     if(!_imgView){
         _imgView = [[UIImageView alloc] init];

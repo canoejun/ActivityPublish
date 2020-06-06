@@ -50,7 +50,7 @@ static NSString * const reusedID = @"totalCell";
         });
         
         //        加载下面的全部活动数据
-        NSString *link = @"http://47.92.93.38:8080/activity/select/new";
+        NSString *link = @"http://47.92.93.38:443/activity/select/new";
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             [ZJHomeUniversalModel loadDataWithLink:link success:^(id  _Nullable responseObject) {
                 //            NSLog(@"活动新闻---%@ %@",[responseObject class],responseObject);
@@ -125,7 +125,7 @@ static NSString * const reusedID = @"totalCell";
         _dataSource = [[ZJBaseDataSource alloc] initWithIdentity:reusedID configBlock:^(ZJHomeActivityNewsCell *  _Nonnull cell, id  _Nonnull model, NSIndexPath * _Nonnull indexPath) {
             cell.model = model;
         }];
-        NSLog(@"加载主页新闻数据");
+//        NSLog(@"加载主页新闻数据");
         
     }
     return _dataSource;
@@ -208,12 +208,10 @@ static NSString * const reusedID = @"totalCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 //    跳转
     ZJHomeActivityNewsCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if([self.detailViewDelegate respondsToSelector:@selector(activityDetailTableViewCellDidClicked:detailLink:)]){
-        
-        [self.detailViewDelegate activityDetailTableViewCellDidClicked:@"ZJActivityDetailViewController" detailLink:[NSString stringWithFormat:@"/activity/select/detail/%@",cell.model.activityID]];
+        [self.detailViewDelegate activityDetailTableViewCellDidClicked:@"ZJActivityDetailViewController" detailLink:cell.model.activityID];
     }
 }
 

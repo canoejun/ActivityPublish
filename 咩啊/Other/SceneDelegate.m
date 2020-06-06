@@ -10,6 +10,7 @@
 #import "ZJTabBarController.h"
 #import "ZJBaseNavigationController.h"
 #import "ZJLoginViewController.h"
+#import "ZJUsersModel.h"
 
 @interface SceneDelegate ()
 
@@ -22,9 +23,15 @@
     if(@available(ios 13,*)){
         if(scene){
             self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
-            ZJLoginViewController * loginVc = [[ZJLoginViewController alloc] init];
-            ZJBaseNavigationController * nav = [[ZJBaseNavigationController alloc] initWithRootViewController:loginVc];
-//            ZJBaseNavigationController *nav = [[ZJBaseNavigationController alloc] initWithRootViewController:[[ZJTabBarController alloc] init]];
+            ZJLoginViewController *loginVc = [[ZJLoginViewController alloc] init];
+            ZJBaseNavigationController *nav = [[ZJBaseNavigationController alloc] init];
+            ZJTabBarController *tabVc = [[ZJTabBarController alloc] init];
+            
+            if([ZJUsersModel isLogin]){//登录了
+                nav = [[ZJBaseNavigationController alloc] initWithRootViewController:tabVc];
+            }else{
+                 nav = [[ZJBaseNavigationController alloc] initWithRootViewController:loginVc];
+            }
             self.window.rootViewController = nav;
             [self.window makeKeyAndVisible];
         }

@@ -48,7 +48,13 @@
     if(self = [super initWithDic:dic picLink:link]){
         self.title = dic[@"Title"];
         self.time = dic[@"Begin_time"];
-        self.imageUrl = dic[@"Post"];
+        NSString *link = dic[@"Post"];
+        if(link.length <= 0){
+            link = @"logo";
+        }else{
+            link = [NSString stringWithFormat:@"http://47.92.93.38:443%@",link];
+        }
+        self.imageUrl = link;
         self.location = dic[@"Position"];
         self.activityID = dic[@"Activity_ID"];
     }
