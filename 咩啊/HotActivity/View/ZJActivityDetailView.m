@@ -58,6 +58,7 @@
     self.titleLabel.text = detailModel.Title;
     self.detailContentLabel.text = detailModel.Content;
     self.detailTime.text = detailModel.Time;
+    NSLog(@"%@",detailModel.Time);
     self.signTime.text = [NSString stringWithFormat:@"签到时间：%@-%@",detailModel.SignBeginTime,detailModel.SignEndTime];
     self.activityTime.text = [NSString stringWithFormat:@"正式活动：%@-%@",detailModel.BeginTime,detailModel.EndTime];
     self.location.text = detailModel.Position;

@@ -24,7 +24,7 @@
 -(UILabel *)contentLabel{
     if(!_contentLabel){
         _contentLabel = [[UILabel alloc] init];
-        
+        _contentLabel.textAlignment = NSTextAlignmentLeft;
     }
     return _contentLabel;
 }
@@ -41,8 +41,8 @@
     [self.contentView addSubview:self.remindLabel];
     [self.contentView addSubview:self.contentLabel];
     
-    _remindLabel.frame = CGRectMake(15, 0, 100, self.frame.size.height);
-    _contentLabel.frame = CGRectMake(self.frame.size.width - 50, 0,  100, self.frame.size.height);
+    _remindLabel.frame = CGRectMake(15, 0, 80, self.frame.size.height);
+    _contentLabel.frame = CGRectMake(CGRectGetMaxX(_remindLabel.frame), 0,  self.frame.size.width - CGRectGetMaxX(_remindLabel.frame), self.frame.size.height);
 }
 
 

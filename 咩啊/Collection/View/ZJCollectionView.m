@@ -50,7 +50,10 @@ static NSString * const reusedID = @"ZJCollectionView";
         NSArray *dataArray = [ZJCollectionModel loadDataWith:responseObject picLink:@""];
         [self.dataSource addDataArray:dataArray];
         [self __setUI];
-        [self.collectionView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
+//        [self.collectionView reloadData];
     } failure:^(id  _Nullable errror) {
         NSLog(@"%@",errror);
     } method:@"POST"];
@@ -154,7 +157,10 @@ static NSString * const reusedID = @"ZJCollectionView";
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             [ZJCollectionModel removeDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID,@"activity_id":cell.model.activityID} success:^(id  _Nullable responseObject) {
                 [self __setUI];
-                [self.collectionView reloadData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.collectionView reloadData];
+                });
+//                [self.collectionView reloadData];
                 NSLog(@"%@删除了，%@",cell.model.content,responseObject);
             } failure:^(id  _Nullable errror) {
                 NSLog(@"%@",errror);

@@ -19,6 +19,7 @@
 		0E27EF33247F445000FE1F8E /* ZJBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E27EF32247F445000FE1F8E /* ZJBaseViewController.m */; };
 		0E27EF36247F4C3400FE1F8E /* ZJActivityNewsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E27EF35247F4C3400FE1F8E /* ZJActivityNewsHeaderView.m */; };
 		0E2AC9232489E1E7006C4DF0 /* ZJUsersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E2AC9222489E1E7006C4DF0 /* ZJUsersModel.m */; };
+		0E3FC12224932B6A00596E03 /* ZJUIAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FC12124932B6A00596E03 /* ZJUIAdapter.m */; };
 		0E434AD724798EFB002BE17A /* ZJCollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E434AD624798EFB002BE17A /* ZJCollectionModel.m */; };
 		0E6FCB362480AAD400D62698 /* ZJHotActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FCB352480AAD400D62698 /* ZJHotActivityCell.m */; };
 		0E6FCB392480AE3A00D62698 /* ZJHotActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E6FCB382480AE3A00D62698 /* ZJHotActivityView.m */; };
@@ -110,6 +111,8 @@
 		0E27EF35247F4C3400FE1F8E /* ZJActivityNewsHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJActivityNewsHeaderView.m; sourceTree = "<group>"; };
 		0E2AC9212489E1E7006C4DF0 /* ZJUsersModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJUsersModel.h; sourceTree = "<group>"; };
 		0E2AC9222489E1E7006C4DF0 /* ZJUsersModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJUsersModel.m; sourceTree = "<group>"; };
+		0E3FC12024932B6A00596E03 /* ZJUIAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJUIAdapter.h; sourceTree = "<group>"; };
+		0E3FC12124932B6A00596E03 /* ZJUIAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJUIAdapter.m; sourceTree = "<group>"; };
 		0E434AD524798EFB002BE17A /* ZJCollectionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJCollectionModel.h; sourceTree = "<group>"; };
 		0E434AD624798EFB002BE17A /* ZJCollectionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZJCollectionModel.m; sourceTree = "<group>"; };
 		0E6FCB342480AAD400D62698 /* ZJHotActivityCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZJHotActivityCell.h; sourceTree = "<group>"; };
@@ -760,6 +763,8 @@
 				0EBBBE1E2481F23C00416B52 /* UIButton+Login.m */,
 				0EA95F9D248A2B4E00E4826A /* UIImage+Color.h */,
 				0EA95F9E248A2B4E00E4826A /* UIImage+Color.m */,
+				0E3FC12024932B6A00596E03 /* ZJUIAdapter.h */,
+				0E3FC12124932B6A00596E03 /* ZJUIAdapter.m */,
 				0EBBBE1D2481F22200416B52 /* Constants.h */,
 			);
 			path = Until;
@@ -936,6 +941,7 @@
 				0EA95F9F248A2B4E00E4826A /* UIImage+Color.m in Sources */,
 				0EBBBE172481F20600416B52 /* ZJLoginViewController.m in Sources */,
 				0E2AC9232489E1E7006C4DF0 /* ZJUsersModel.m in Sources */,
+				0E3FC12224932B6A00596E03 /* ZJUIAdapter.m in Sources */,
 				0EA51200247D3411004FE826 /* ZJHomeUniversalModel.m in Sources */,
 				0EBBBE47248215AB00416B52 /* ZJMineNameMottoModel.m in Sources */,
 				0EBBBE342481FC1A00416B52 /* ZJAboutUsViewController.m in Sources */,
@@ -1095,7 +1101,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WGW75UGN4E;
 				INFOPLIST_FILE = "咩啊/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1114,7 +1120,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WGW75UGN4E;
 				INFOPLIST_FILE = "咩啊/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

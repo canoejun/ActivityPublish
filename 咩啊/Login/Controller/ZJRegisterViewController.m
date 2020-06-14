@@ -22,7 +22,7 @@
 /** 手机号  */
 @property (nonatomic,strong) ZJTextField * userPhoneNumber;
 /** 验证码  */
-@property (nonatomic,strong) ZJTextField * verificationCode;
+//@property (nonatomic,strong) ZJTextField * verificationCode;
 /** 第一次密码  */
 @property (nonatomic,strong) ZJTextField * firstPwd;
 /** 第二次密码  */
@@ -89,47 +89,36 @@
         [SVProgressHUD showErrorWithStatus:@"两次密码不一致"];
         return;
     }
-    if (_verificationCode.text.length <= 0) {
-        [SVProgressHUD showErrorWithStatus:@"验证码为空!"];
-        return;
-    }
+    
     NSDictionary *params = @{
-                     @"phoneNumber":_userPhoneNumber.text,
+                     @"phone":_userPhoneNumber.text,
                      @"password":_firstPwd.text,
-                     @"verificationCode":_verificationCode.text
+//                     @"verificationCode":_verificationCode.text
                      };
-//    [_manager POST:@"https://freegatty.ZJosa.xenoeye.org/ac/register" parameters:_paraDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-////        注册后怎么办
-////        NSLog(@"%@",responseObject);
-//        NSString * success = responseObject[@"success"];
-//        if (success.intValue == 0) {
-//            [SVProgressHUD showErrorWithStatus:@"已存在账号,请登录!"];
-//        }else {
-//            [SVProgressHUD showSuccessWithStatus:@"注册成功!"];
-//        }
-//        [self.navigationController popViewControllerAnimated:YES];
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        NSLog(@"%@",error);
-//        [SVProgressHUD showErrorWithStatus:@"请检查网络，稍后重试!"];
-//    }];
+    
     [ZJUsersModel userActWithLink:@"http://47.92.93.38:443/user/create" params:params success:^(id  _Nullable responseObject) {
-        NSLog(@"%@",responseObject);
-//        406
-//        "此手机号已注册"
-//        200
-//        "注册成功"
-//        400
-//        错误信息
-        //        if (success.intValue == 0) {
-        //            [SVProgressHUD showErrorWithStatus:@"已存在账号,请登录!"];
-        //        }else {
-        //            [SVProgressHUD showSuccessWithStatus:@"注册成功!"];
-        //        }
-        
-        [self.navigationController popViewControllerAnimated:YES];
+//        NSLog(@"%@",responseObject);
+        NSString *info = responseObject[@"info"];
+        if([info isEqualToString:@"注册成功"]){
+            [SVProgressHUD showSuccessWithStatus:@"注册成功!"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     } failure:^(id  _Nullable error) {
-                NSLog(@"%@",error);
-                [SVProgressHUD showErrorWithStatus:@"请检查网络，稍后重试!"];
+        NSLog(@"%@",error);
+        NSError *errorInfo = (NSError *)error;
+        // 通过error信息进行获取
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:errorInfo.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] options:0 error:nil];
+        // 错误码
+        NSString *info = response[@"error"];
+        if (info){
+            if([info containsString:@"此手机号"]){
+                [SVProgressHUD showErrorWithStatus:@"已存在账号,请登录!"];
+            }else{
+                [SVProgressHUD showErrorWithStatus:@"发生错误，稍后重试!"];
+            }
+            return;
+        }
+        [SVProgressHUD showErrorWithStatus:@"请检查网络，稍后重试!"];
     }];
 }
 

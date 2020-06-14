@@ -32,7 +32,9 @@ static NSString * const reusedID = @"hotCell";
 //                NSLog(@"%@",responseObject);
                 NSArray *array =[ZJHomeUniversalModel loadDataWith:dataArray picLink:link];
                 [self.dataSource addDataArray:array];
-                [self.tableView reloadData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
             } failure:^(id  _Nullable errror) {
                 NSLog(@"%@",errror);
             }];

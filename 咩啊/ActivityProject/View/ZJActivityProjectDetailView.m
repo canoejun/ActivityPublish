@@ -56,7 +56,10 @@ static NSString * const reusedID = @"totalCell";
                 //            NSLog(@"活动新闻---%@ %@",[responseObject class],responseObject);
                 NSArray *dataArray = [ZJHomeUniversalModel loadDataWith:responseObject picLink:link];
                 [self.dataSource addDataArray:dataArray];
-                [self.tableView reloadData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+                
             } failure:^(id  _Nullable errror) {
                 NSLog(@"%@",errror);
             }];
@@ -157,6 +160,8 @@ static NSString * const reusedID = @"totalCell";
 -(void)__setUI:(CGRect)frame{
     //    添加图片
     [self addSubview:self.tableView];
+    self.tableView.frame = CGRectMake(15, 0, self.bounds.size.width - 30, self.bounds.size.height - 88);
+//    NSLog(@"%f %f %f %f",frame.origin.x,frame.origin.y,frame.size.width,frame.size.height);
 }
 
 -(void)__updateUI{

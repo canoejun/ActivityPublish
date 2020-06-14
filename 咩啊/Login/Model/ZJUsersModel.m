@@ -7,7 +7,6 @@
 //
 
 #import "ZJUsersModel.h"
-//#import "ZJBaseDataModel.h"
 #import "ZJFactory.h"
 
 #define kEncodedObjectPath_User ([[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"user"])

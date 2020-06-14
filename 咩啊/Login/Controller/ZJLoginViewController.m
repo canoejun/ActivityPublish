@@ -101,9 +101,9 @@
 -(void)login {
     if (_pwdTextfield.text.length <= 0 && _userTextField.text.length <= 0) {
         [SVProgressHUD showErrorWithStatus:@"请填写账号和密码"];
-        //        if (![self checkPhoneNumber:_userTextField.text]) {
-        //            [SVProgressHUD showErrorWithStatus:@"请检查手机号"];
-        //        }
+                if (![self checkPhoneNumber:_userTextField.text]) {
+                    [SVProgressHUD showErrorWithStatus:@"请检查手机号"];
+                }
         return ;
     }
     
@@ -147,26 +147,26 @@
     return YES;
 }
 
-//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-//
-//    if (textField == _userTextField && range.location >= 11) {
-//        return NO;
-//    }
-//    return YES;
-//}
-//
-//-(void)textFieldDidEndEditing:(UITextField *)textField {
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+
+    if (textField == _userTextField && range.location >= 11) {
+        return NO;
+    }
+    return YES;
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
 //    if (textField == _userTextField && _userTextField.text.length == 11) {
 //        _pwdTextfield.userInteractionEnabled = YES;
 //    }
-//}
-//
-//- (BOOL)checkPhoneNumber:(NSString *)phoneNumber
-//{
-//    NSString *regex = @"^[1][3-8]\\d{9}$";
-//    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-//    return [pred evaluateWithObject:phoneNumber];
-//}
+}
+
+- (BOOL)checkPhoneNumber:(NSString *)phoneNumber
+{
+    NSString *regex = @"^[1][3-8]\\d{9}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [pred evaluateWithObject:phoneNumber];
+}
 
 #pragma mark mark ------ 手势 ------
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

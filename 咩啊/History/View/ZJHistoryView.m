@@ -49,7 +49,12 @@ static NSString * const reusedID = @"ZJHistory";
         //        ZJSignedModel
         NSArray *dataArray = [ZJCollectionModel loadDataWith:responseObject picLink:@""];
         [self.dataSource addDataArray:dataArray];
-        [self.collectionView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+            [self __setUI];
+        });
+//        [self.collectionView reloadData];
+//        [self __setUI];
     } failure:^(id  _Nullable errror) {
         NSLog(@"%@",errror);
     } method:@"POST"];
@@ -76,6 +81,14 @@ static NSString * const reusedID = @"ZJHistory";
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
     return 0.f;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    ZJCollectionCell *cell = (ZJCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    //        点击进行cell，进行界面的切换
+    if([self.delegate respondsToSelector:@selector(historyViewCellDidClickedNextController:detailLink:)]){
+        [self.delegate historyViewCellDidClickedNextController:@"ZJActivityDetailViewController" detailLink:cell.model.activityID];
+    }
 }
 
 #pragma mark ---------------------lazyLoad------------------------------

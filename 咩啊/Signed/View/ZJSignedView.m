@@ -51,7 +51,10 @@ static NSString *reusedID = @"ZJSignedView";
         NSArray *dataArray = [ZJSignedModel loadDataWith:responseObject picLink:@""];
         [self.dataSource addDataArray:dataArray];
         [self __setUI];
-        [self.tableView reloadData];
+//        [self.tableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
     } failure:^(id  _Nullable errror) {
         NSLog(@"%@",errror);
     } method:@"POST"];

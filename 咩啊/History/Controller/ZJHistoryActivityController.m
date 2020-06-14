@@ -8,8 +8,9 @@
 
 #import "ZJHistoryActivityController.h"
 #import "ZJHistoryView.h"
+#import "ZJBaseDetailViewController.h"
 
-@interface ZJHistoryActivityController ()
+@interface ZJHistoryActivityController ()<ZJHistoryViewDelegate>
 
 @end
 
@@ -19,8 +20,19 @@
     [super viewDidLoad];
     self.navigationItem.title = @"历史活动";
     self.view.backgroundColor = [UIColor whiteColor];
-    self.view = [[ZJHistoryView alloc] initWithFrame:self.view.bounds];
+    ZJHistoryView *view = [[ZJHistoryView alloc] initWithFrame:self.view.bounds];
+    view.delegate = self;
+    self.view = view;
     
 }
+
+- (void)historyViewCellDidClickedNextController:(NSString *)nextController detailLink:(NSString *)url{
+    Class cls = NSClassFromString(nextController);
+    ZJBaseDetailViewController *vc = [[cls alloc] init];
+    vc.url = url;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 
 @end

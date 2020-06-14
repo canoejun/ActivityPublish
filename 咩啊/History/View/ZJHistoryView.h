@@ -10,8 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJHistoryView : UIView
+@protocol ZJHistoryViewDelegate <NSObject>
 
+-(void)historyViewCellDidClickedNextController:(NSString *_Nullable)nextController detailLink:(NSString *_Nullable)url;
+
+@end
+
+@interface ZJHistoryView : UIView
+@property (nonatomic, weak, readwrite) id<ZJHistoryViewDelegate> delegate;
+-(void)updateData;
 @end
 
 NS_ASSUME_NONNULL_END

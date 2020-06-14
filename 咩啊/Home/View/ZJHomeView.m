@@ -89,7 +89,9 @@ static NSString *const newsReusedID = @"activityNews";
 
 - (void)ZJHomeHeaderViewTypeDicClicked:(NSArray *)dataArray{
     [self.activityNewsDataSource addDataArray:dataArray];
-    [self.activityNews reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+         [self.activityNews reloadData];
+    });
 }
 
 

@@ -32,7 +32,7 @@
 
 
 -(void)__setUI{
-//   添加姓名
+    //   添加姓名
     CGFloat left = 45;
     CGFloat height = 100;
     CGFloat width = self.frame.size.width - 2*left;
@@ -41,19 +41,20 @@
     self.nameView = nameView;
     nameView.textFiled.delegate = self;
     [self addSubview:nameView];
-//    添加手机号
+    //    添加手机号
     ZJSignActivityModuleView *numberView = [[ZJSignActivityModuleView alloc] initTextFieldWithFrame:CGRectMake(left, CGRectGetMaxY(nameView.frame), width, height) title:@"手机号" placeText:@"请输入你的手机号"];
     self.numberView = numberView;
+    numberView.textFiled.keyboardType = UIKeyboardTypeNumberPad;
     numberView.textFiled.delegate = self;
     [self addSubview:numberView];
     
-//添加备注
+    //添加备注
     ZJSignActivityModuleView *noteView = [[ZJSignActivityModuleView alloc] initTextFieldWithFrame:CGRectMake(left, CGRectGetMaxY(numberView.frame), width, height) title:@"备注" placeText:@"请输入备注"];
     self.noteView = noteView;
     noteView.textFiled.delegate = self;
     [self addSubview:noteView];
     
-//    添加报名的按钮
+    //    添加报名的按钮
     UIButton *signBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [signBtn setBackgroundColor:[UIColor colorWithRed:255/255.0 green:210/255.0 blue:0/255.0 alpha:1.0]];
     [signBtn setTitle:@"确定" forState:UIControlStateNormal];
@@ -68,13 +69,19 @@
 }
 
 -(void)__signBtnDidClicked{
-//    判断是否为空
-//    if(_nameView.textFiled.text.length <= 0 || _numberView.textFiled.text.length<=0 || _noteView.textFiled.text.length <= 0){
-//        [SVProgressHUD showErrorWithStatus:@"请检查输入是否为空"];
-//        return;
-//    }
-//    上传网络
-//    /apply/create
+    //    上传网络
+    
+    if (_nameView.textFiled.text.length <= 0 && _numberView.textFiled.text.length <= 0) {
+        [SVProgressHUD showErrorWithStatus:@"请填写姓名和手机号"];
+        return ;
+    }
+    if (![self checkPhoneNumber:_numberView.textFiled.text]) {
+        [SVProgressHUD showErrorWithStatus:@"请检查手机号"];
+        return;
+    }
+    
+    
+    //    /apply/create
     NSDictionary *params = @{
         @"user_id":[ZJUsersModel shareInstance].userID,
         @"activity_id":_currentActivityID,
@@ -111,7 +118,18 @@
     [self.selectTextField resignFirstResponder];
 }
 
+- (BOOL)checkPhoneNumber:(NSString *)phoneNumber
+{
+    NSString *regex = @"^[1][3-8]\\d{9}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [pred evaluateWithObject:phoneNumber];
+}
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
-
+    if (textField == _numberView.textFiled && range.location >= 11) {
+        return NO;
+    }
+    return YES;
+}
 @end

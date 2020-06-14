@@ -29,7 +29,7 @@
 }
 
 -(void)reloadData{
-    NSLog(@"%@",[NSThread currentThread]);
+//    NSLog(@"%@",[NSThread currentThread]);
     CGFloat padding = 15.f;
     CGFloat width = (self.frame.size.width - 2 * padding) / 2.0;
     CGFloat height = self.frame.size.height;
@@ -40,6 +40,7 @@
 
     NSInteger count = self.dataSource.dataArray.count;
     _scrollView.contentSize = CGSizeMake(width * count + (count - 1) * padding, height);
+    _scrollView.showsHorizontalScrollIndicator = NO;
     for (int i = 0; i < (count > 3 ? 3 : count); i++) {
         ZJHomeActivityProjectModel *model = _dataSource.dataArray[i];
         ZJHomeActivityProjectCell *cell = [[ZJHomeActivityProjectCell alloc] initWithFrame:CGRectMake((padding + width) * i, 0, width, height) model:model];
