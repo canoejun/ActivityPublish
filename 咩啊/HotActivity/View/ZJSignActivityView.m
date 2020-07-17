@@ -83,7 +83,7 @@
     
     //    /apply/create
     NSDictionary *params = @{
-        @"user_id":[ZJUsersModel shareInstance].userID,
+        @"user_id":[ZJUsersModel shareInstance].userid,
         @"activity_id":_currentActivityID,
         @"name":[NSString stringWithFormat:@"%@",_nameView.textFiled.text],
         @"phone":[NSString stringWithFormat:@"%@",_numberView.textFiled.text],

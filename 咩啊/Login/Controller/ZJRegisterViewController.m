@@ -11,7 +11,7 @@
 #import "ZJLoginLabel.h"
 #import "UIButton+Login.h"
 #import "SVProgressHUD.h"
-#import "ZJFactory.h"
+#import "ZJNetWokingFactory.h"
 #import "ZJLoginViewController.h"
 
 #import "ZJUsersModel.h"

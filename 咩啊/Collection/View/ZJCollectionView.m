@@ -45,7 +45,7 @@ static NSString * const reusedID = @"ZJCollectionView";
 }
 -(void)updateData{
     NSString *link = @"http://47.92.93.38:443/collect/select";
-    [ZJCollectionModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID} success:^(id  _Nullable responseObject) {
+    [ZJCollectionModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userid} success:^(id  _Nullable responseObject) {
 //        NSLog(@"%@ %@",[responseObject class],responseObject);
         NSArray *dataArray = [ZJCollectionModel loadDataWith:responseObject picLink:@""];
         [self.dataSource addDataArray:dataArray];
@@ -155,7 +155,7 @@ static NSString * const reusedID = @"ZJCollectionView";
          cell.selectBtn.selected = NO;
         [self.dataSource removeData:cell.model];
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [ZJCollectionModel removeDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID,@"activity_id":cell.model.activityID} success:^(id  _Nullable responseObject) {
+            [ZJCollectionModel removeDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userid,@"activity_id":cell.model.activityID} success:^(id  _Nullable responseObject) {
                 [self __setUI];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.collectionView reloadData];

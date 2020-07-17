@@ -12,7 +12,7 @@
 #import "ZJLoginViewController.h"
 #import "ZJBaseNavigationController.h"
 #import "ZJUsersModel.h"
-#import "ZJCache.h"
+#import "ZJNetWorkingCache.h"
 
 @interface ZJMineView ()<UITableViewDelegate,ZJMineHeadViewDelegate>
 @property (nonatomic, strong, readwrite) ZJBaseDataSource *dataSource;
@@ -114,7 +114,7 @@ static NSString *const reusedID = @"ZJMineView";
         [manager removeItemAtPath:path error:&error];
         [manager removeItemAtPath:NSTemporaryDirectory() error:&error];
         
-        ZJCache *cache = [ZJCache shareInstance];
+        ZJNetWorkingCache *cache = [ZJNetWorkingCache shareInstance];
         [cache clearAll];
         
     } cancelHander:nil];
@@ -134,7 +134,7 @@ static NSString *const reusedID = @"ZJMineView";
     UIAlertController *alertVc = [self __buildAlertVcWithTitle:@"退出登录" message:@"即将退出当前登录用户！" okIsNeed:YES  cancelIsNeed:YES okHandler:^(UIAlertAction *action) {
         
         [ZJUsersModel logOut];
-        [[ZJCache shareInstance] clearAll];
+        [[ZJNetWorkingCache shareInstance] clearAll];
         
         ZJLoginViewController * loginVc = [[ZJLoginViewController alloc] init];
         ZJBaseNavigationController * nav = [[ZJBaseNavigationController alloc] initWithRootViewController:loginVc];

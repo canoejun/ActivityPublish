@@ -182,7 +182,7 @@
     
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [ZJActivityDetailOuterModel loadDataWithLink:@"http://47.92.93.38:443/activity/select/detail" params:@{@"activity_id":self.detailLink,@"user_id":[ZJUsersModel shareInstance].userID} success:^(id  _Nullable responseObject) {
+        [ZJActivityDetailOuterModel loadDataWithLink:@"http://47.92.93.38:443/activity/select/detail" params:@{@"activity_id":self.detailLink,@"user_id":[ZJUsersModel shareInstance].userid} success:^(id  _Nullable responseObject) {
             //            NSLog(@"%@ %@",[responseObject class],[responseObject[@"activity_detail"] class]);
             self.model = [[ZJActivityDetailOuterModel alloc] initWithDic:responseObject];
             [self __updateUI];
@@ -196,7 +196,7 @@
     if(self.signBtn.selected){//已经报名了，取消报名
         self.signBtn.selected = NO;
         [self.signBtn setBackgroundColor:[UIColor colorWithRed:255/255.0 green:210/255.0 blue:0/255.0 alpha:1.0]];
-        [ZJActivityDetailOuterModel removeWithLink:@"http://47.92.93.38:443/apply/delete" params:@{@"user_id":[ZJUsersModel shareInstance].userID,@"activity_id":self.model.activityDetailModel.ActivityID} success:^(id  _Nullable responseObject) {
+        [ZJActivityDetailOuterModel removeWithLink:@"http://47.92.93.38:443/apply/delete" params:@{@"user_id":[ZJUsersModel shareInstance].userid,@"activity_id":self.model.activityDetailModel.ActivityID} success:^(id  _Nullable responseObject) {
             NSLog(@"报名详情%@ %@",[responseObject class],responseObject);
         } failure:^(id  _Nullable errror) {
             NSLog(@"%@",errror);
@@ -212,7 +212,7 @@
     if(btn.selected){//如果被选中，取消收藏
         btn.selected = NO;
         [btn setBackgroundColor:[UIColor colorWithRed:255/255.0 green:210/255.0 blue:0/255.0 alpha:1.0]];
-        [ZJActivityDetailOuterModel addCollectWithWithLink:@"http://47.92.93.38:443/collect/delete" params:@{@"user_id":[ZJUsersModel shareInstance].userID,@"activity_id":self.model.activityDetailModel.ActivityID} success:^(id  _Nullable responseObject) {
+        [ZJActivityDetailOuterModel addCollectWithWithLink:@"http://47.92.93.38:443/collect/delete" params:@{@"user_id":[ZJUsersModel shareInstance].userid,@"activity_id":self.model.activityDetailModel.ActivityID} success:^(id  _Nullable responseObject) {
             NSLog(@"%@收藏了%@",self.model.activityDetailModel.ActivityID,responseObject);
         } failure:^(id  _Nullable errror) {
             NSLog(@"%@",errror);
@@ -220,7 +220,7 @@
     }else{//没有被选中，进行收藏
         btn.selected = YES;
         [btn setBackgroundColor:[UIColor colorWithRed:255/255.0 green:57/255.0 blue:56/255.0 alpha:0.1]];
-        [ZJActivityDetailOuterModel removeWithLink:@"http://47.92.93.38:443/collect/create" params:@{@"user_id":[ZJUsersModel shareInstance].userID,@"activity_id":self.model.activityDetailModel.ActivityID} success:^(id  _Nullable responseObject) {
+        [ZJActivityDetailOuterModel removeWithLink:@"http://47.92.93.38:443/collect/create" params:@{@"user_id":[ZJUsersModel shareInstance].userid,@"activity_id":self.model.activityDetailModel.ActivityID} success:^(id  _Nullable responseObject) {
             NSLog(@"%@收藏删除%@",self.model.activityDetailModel.ActivityID,responseObject);
         } failure:^(id  _Nullable errror) {
             NSLog(@"%@",errror);

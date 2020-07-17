@@ -1,17 +1,17 @@
 //
-//  ZJFactory.m
+//  ZJNetWokingFactory.m
 //  OpenZJNG
 //
 //  Created by canoejun on 2019/11/6.
 //
 
-#import "ZJFactory.h"
+#import "ZJNetWokingFactory.h"
 #import "Constants.h"
 
 
-@implementation ZJFactory
+@implementation ZJNetWokingFactory
 
-+(AFHTTPSessionManager *)ZJFactoryAFNManage {
++(AFHTTPSessionManager *)factoryManager {
 
     static AFHTTPSessionManager *manager;
     

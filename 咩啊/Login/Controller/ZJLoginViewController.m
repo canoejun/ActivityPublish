@@ -14,7 +14,7 @@
 #import "ZJForgetPwdViewController.h"
 #import "Constants.h"
 #import "ZJTabBarController.h"
-#import "ZJFactory.h"
+#import "ZJNetWokingFactory.h"
 #import "ZJBaseNavigationController.h"
 
 #import "ZJUsersModel.h"

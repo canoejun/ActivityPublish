@@ -95,7 +95,7 @@
         failure(errror);
     } method:@"POST"];
     
-//    AFHTTPSessionManager *manager = [ZJFactory ZJFactoryAFNManage];
+//    AFHTTPSessionManager *manager = [ZJNetWokingFactory factoryManager];
 //    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
 //    NSLog(@"%@ %@",link,params);
 //    [manager POST:link parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

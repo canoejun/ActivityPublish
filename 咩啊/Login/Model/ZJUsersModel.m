@@ -7,7 +7,8 @@
 //
 
 #import "ZJUsersModel.h"
-#import "ZJFactory.h"
+#import "ZJNetWokingFactory.h"
+#import <objc/runtime.h>
 
 #define kEncodedObjectPath_User ([[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"user"])
 
@@ -48,7 +49,7 @@
 
 +(instancetype)shareInstanceWithDict:(NSDictionary *)dic{
     ZJUsersModel *model = [ZJUsersModel shareInstance];
-    model.userID = dic[@"user_id"];
+    model.userid = dic[@"user_id"];
     model.loginInfo = dic[@"info"];
     return model;
 }
@@ -69,15 +70,31 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [coder encodeObject:self.userID forKey:@"userid"];
-    [coder encodeObject:self.name forKey:@"name"];
-    [coder encodeObject:self.motto forKey:@"motto"];
+    unsigned int count = 0;
+    Ivar *ivars = class_copyIvarList([self class], &count);
+    Ivar ivar;
+    for (int i = 0; i < count; i++) {
+        ivar = ivars[i];
+        const char * name = ivar_getName(ivar);
+        NSString *key = [NSString stringWithUTF8String:name];
+        [coder encodeObject:[self valueForKey:key] forKey:key];
+    }
+    free(ivars);
 }
 -(instancetype)initWithCoder:(NSCoder *)coder{
-    if(self = [super init]){
-        self.userID = [coder decodeObjectForKey:@"userid"];
-        self.name = [coder decodeObjectForKey:@"name"];
-        self.motto = [coder decodeObjectForKey:@"motto"];
+    self = [super init];
+    if(self){
+        unsigned int count = 0;
+        Ivar *ivars = class_copyIvarList([self class], &count);
+        Ivar ivar;
+        for (int i = 0; i < count; i++) {
+            ivar = ivars[i];
+            const char * name = ivar_getName(ivar);
+            NSString *key = [NSString stringWithUTF8String:name];
+            id value = [coder decodeObjectForKey:key];
+            [self setValue:value forKey:key];
+        }
+        free(ivars);
     }
     return self;
 }

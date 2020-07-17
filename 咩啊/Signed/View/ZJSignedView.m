@@ -47,7 +47,7 @@ static NSString *reusedID = @"ZJSignedView";
 -(void)updateData{
 //    更新SETUI和tableview
     NSString *link = @"http://47.92.93.38:443/apply/select";
-    [ZJSignedModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID} success:^(id  _Nullable responseObject) {
+    [ZJSignedModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userid} success:^(id  _Nullable responseObject) {
         NSArray *dataArray = [ZJSignedModel loadDataWith:responseObject picLink:@""];
         [self.dataSource addDataArray:dataArray];
         [self __setUI];

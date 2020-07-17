@@ -1,5 +1,5 @@
 //
-//  ZJFactory.h
+//  ZJNetWokingFactory.h
 //  OpenZJNG
 //
 //  Created by canoejun on 2019/11/6.
@@ -11,10 +11,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZJFactory : NSObject
+@interface ZJNetWokingFactory : NSObject
 
 
-+(AFHTTPSessionManager *)ZJFactoryAFNManage;
++(AFHTTPSessionManager *)factoryManager;
+
 @end
 
 NS_ASSUME_NONNULL_END

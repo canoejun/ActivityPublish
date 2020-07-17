@@ -18,7 +18,7 @@
 
 #import "ZJHomeActivityProjectView.h"
 
-#import "ZJCache.h"
+#import "ZJNetWorkingCache.h"
 
 @interface ZJActivityNewsHeaderView ()<UITableViewDelegate,ZJActivityProjectViewDelegate>
 @property (nonatomic, strong, readwrite) UIView *activityProject;
@@ -134,7 +134,7 @@ static NSString *const hotReusedID = @"hotActivity";
     });
     
     //    如果新的链接数据没有加载出来，先加载旧的数据
-    ZJCache *cache = [ZJCache shareInstance];
+    ZJNetWorkingCache *cache = [ZJNetWorkingCache shareInstance];
     id responseObject = [cache objectForKey:typeName];
     NSArray *dataArray = [ZJHomeUniversalModel loadDataWith:responseObject picLink:@""];
     if([self.delegate respondsToSelector:@selector(ZJHomeHeaderViewTypeDicClicked:)]){

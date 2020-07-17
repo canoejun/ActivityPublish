@@ -45,7 +45,7 @@ static NSString * const reusedID = @"ZJHistory";
 
 -(void)__updateData{
     NSString *link = @"http://47.92.93.38:443/apply/history";
-    [ZJCollectionModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userID} success:^(id  _Nullable responseObject) {
+    [ZJCollectionModel loadDataWithLink:link params:@{@"user_id":[ZJUsersModel shareInstance].userid} success:^(id  _Nullable responseObject) {
         //        ZJSignedModel
         NSArray *dataArray = [ZJCollectionModel loadDataWith:responseObject picLink:@""];
         [self.dataSource addDataArray:dataArray];

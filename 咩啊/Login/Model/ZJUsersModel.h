@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZJUsersModel : NSObject
 //@property (nonatomic, copy, readwrite) NSString *phoneNumber;
-@property (nonatomic, copy, readwrite) NSString *userID;
+@property (nonatomic, copy, readwrite) NSString *userid;
 //@property (nonatomic, copy, readwrite) NSString *password;
 
 @property (nonatomic, copy, readwrite) NSString *loginInfo;

@@ -22,7 +22,7 @@
         block(model);
     }
     
-    [super loadDataWithLink:@"http://47.92.93.38:443/user/select" params:userModel.userID success:^(id  _Nullable responseObject) {
+    [super loadDataWithLink:@"http://47.92.93.38:443/user/select" params:userModel.userid success:^(id  _Nullable responseObject) {
         userModel.name = responseObject[@"User_Name"];
         userModel.motto = responseObject[@"Other"];
         model.name = userModel.name;
@@ -95,7 +95,7 @@
 +(void)upDateNameMottoDataWithModel:(ZJMineHeadViewBannerModel *)model{
     ZJUsersModel *userModel = [ZJUsersModel shareInstance];
     NSDictionary *params = @{
-        @"user_id":userModel.userID,
+        @"user_id":userModel.userid,
         @"name":model.name,
         @"other":model.motto
     };
